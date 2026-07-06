@@ -8,6 +8,7 @@ body {
 main {
     display: grid;
     grid-auto-flow: column;
+    align-items: start;
     justify-content: start;
 }
 
@@ -107,8 +108,8 @@ main {
 #cart_content thead th {
   border-bottom: 2px solid #d1a600;
   padding-bottom: 8px;
-  padding-right: 18px;
-  padding-left: 18px;
+  padding-right: 8px;
+  padding-left: 8px;
 }
 #cart_content tfoot tr td {
     font-weight: bold;

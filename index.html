@@ -2,8 +2,6 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>idk</title>
     <link rel="stylesheet" href="CSS\main.css">
 </head>
@@ -32,10 +30,12 @@
                         <thead>
                             <th>Название</th>
                             <th>Количество</th>
+                            <th>Цена</th>
                         </thead>
+                        <tbody></tbody>
                         <tfoot>
                             <tr>
-                              <td colspan="2">Итого: 0 руб.</td>
+                              <td colspan="3">Итого: 0 руб.</td>
                             </tr>
                         </tfoot>
                     </table>
@@ -57,21 +57,47 @@
                         <td>Соус и овощи на выбор</td>
                     </tbody>
                     <tfoot>
-                        <tr><td>Цена: руб.</td></tr>
+                        <tr><td>Цена: 110 руб.</td></tr>
                     </tfoot>
                 </table>
                 <div class = "product_value">
                     <p>КОЛИЧЕСТВО</p>
                     <div class="product_val_changer">
-                        <button>-</button>
+                        <button class = "product_val_remove">-</button>
                         <div class="product_val_indicator">0</div>
-                        <button>+</button>
+                        <button class = "product_val_add">+</button>
+                    </div>
+                </div>
+                <button class = "product_add_to_cart">В КОРЗИНУ</button>
+            </div>
+            <div class = "product">
+                <img class="product_market" src="assets/subway_logo.png" alt="">
+                <div class = "product_img">
+                    <img src="assets/ovoshnoy.png" alt="">
+                </div>
+                <table class = "product_description">
+                    <thead>
+                        <th>Овощной</th>
+                    </thead>
+                    <tbody>
+                        <td>Соус и овощи на выбор</td>
+                    </tbody>
+                    <tfoot>
+                        <tr><td>Цена: 110 руб.</td></tr>
+                    </tfoot>
+                </table>
+                <div class = "product_value">
+                    <p>КОЛИЧЕСТВО</p>
+                    <div class="product_val_changer">
+                        <button class = "product_val_remove">-</button>
+                        <div class="product_val_indicator">0</div>
+                        <button class = "product_val_add">+</button>
                     </div>
                 </div>
                 <button class = "product_add_to_cart">В КОРЗИНУ</button>
             </div>
         </div>
     </main>
-    <script src=".js"></script>
+    <script src="scripts/products.js" type="module"></script>
 </body>
 </html>
