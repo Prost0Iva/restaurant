@@ -1,0 +1,36 @@
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Страница загружена');
+    pageFill();
+});
+
+function pageFill() {
+    const prod_list = document.getElementById('product_list')
+    prod_list.insertAdjacentHTML("afterbegin",
+        `<div class = "product">
+                <img class="product_market" src="assets/img/markets/subway_logo.png" alt="">
+                <div class = "product_img">
+                    <img src="assets/img/sandwiches/ovoshnoy.png" alt="">
+                </div>
+                <table class = "product_description">
+                    <thead>
+                        <th>Овощной</th>
+                    </thead>
+                    <tbody>
+                        <td>Соус и овощи на выбор</td>
+                    </tbody>
+                    <tfoot>
+                        <tr><td>Цена: 110 руб.</td></tr>
+                    </tfoot>
+                </table>
+                <div class = "product_value">
+                    <p>КОЛИЧЕСТВО</p>
+                    <div class="product_val_changer">
+                        <button class = "product_val_remove">-</button>
+                        <div class="product_val_indicator">0</div>
+                        <button class = "product_val_add">+</button>
+                    </div>
+                </div>
+                <button class = "product_add_to_cart">В КОРЗИНУ</button>
+            </div>`
+    )
+}
