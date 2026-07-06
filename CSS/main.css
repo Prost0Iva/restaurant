@@ -35,10 +35,11 @@ body {
     padding: 10px;
 }.navig_button:hover {
     background-color: #ffc000;
+    color: #ffffff;
 }
 
 #cart {
-    min-height: 67px;
+    min-height: 100px;
     max-width: 300px;
     margin: 20px;
     background-color: #fdd55b;
@@ -49,13 +50,73 @@ body {
     display: grid;
     color: #ffffff;
     background-color: #ffc000;
-    font-size: 25px;
-    align-content: center;
+    font-size: 28px;
     text-align: center;
-    height: 100px;
+    height: 60px;
+    grid-auto-flow: column;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 0px 4px 1px #d1a600;
+    overflow: hidden;
+    font-family: 'Times New Roman';
 }
 #cart_img {
     width: 40px;
     height: 32px;
-    margin: 5px;
+    margin-right: 15px;
+    filter: drop-shadow(1px 1px 0px #d1a600)
+            drop-shadow(1px 1px 0px #d1a600)
+            drop-shadow(1px 1px 0px #d1a600)
+            drop-shadow(1px 1px 0px #d1a600)
+            drop-shadow(1px 1px 0px #d1a600)
+            drop-shadow(1px 1px 0px #d1a600)
+            drop-shadow(1px 1px 0px #d1a600)
+            drop-shadow(1px 1px 0px #d1a600)
+            drop-shadow(1px 1px 0px #d1a600)
+            drop-shadow(1px 1px 0px #d1a600)
+            drop-shadow(1px 1px 0px #d1a600);
+    z-index: 1;
+}
+#cart_shadow {
+    width: 54px;
+    height: 38.2px;
+    background-color: #d1a600;
+    margin-left: -37px;
+    margin-bottom: -54px;
+    transform: rotate(45deg);
+    z-index: 0;
+}
+#cart_manage {
+    display: grid;
+    justify-items: center;
+}
+#cart_content {
+    margin: 8px;
+    color: #3e3f42;
+    font-family: 'Times New Roman';
+    font-size: 18px;
+    border-collapse: collapse;
+
+} 
+#cart_content thead th {
+  border-bottom: 2px solid #d1a600;
+  padding-bottom: 8px;
+}
+#cart_content tfoot tr td {
+    font-weight: bold;
+    text-align: center;
+}
+#cart_button {
+    margin: 20px;
+    width: 180px;
+    font-size: 12px;
+    font-weight: 800;
+    border: none;
+    outline: none;
+    background-color: #808080;
+    color: #ffffff;
+    padding: 8px;
+    border-radius: 5px;
+    box-shadow: 0px 2px 0px 0px #000000;
 }
