@@ -107,6 +107,8 @@ main {
 #cart_content thead th {
   border-bottom: 2px solid #d1a600;
   padding-bottom: 8px;
+  padding-right: 18px;
+  padding-left: 18px;
 }
 #cart_content tfoot tr td {
     font-weight: bold;
@@ -208,4 +210,17 @@ main {
     margin-left: 15px;
     border-radius: 5px;
     box-shadow: 0px 0px 4px 0px #000000;
+}
+.product_add_to_cart {
+    margin: 20px;
+    width: 180px;
+    font-size: 14px;
+    font-weight: 800;
+    border: none;
+    outline: none;
+    background-color: #f5c300;
+    color: #ffffff;
+    padding: 8px;
+    border-radius: 5px;
+    box-shadow: 0px 2px 0px 0px #634f00;
 }
