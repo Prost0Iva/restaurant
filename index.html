@@ -8,6 +8,87 @@
 <body>
     <div id = "title">СДЕЛАЙТЕ ЗАКАЗ НАПРЯМУЮ ИЗ РЕСТОРАНА</div>
     <main>
+
+        
+        <div id="modal_overlay">
+            <div class="modal">
+                <div class="modal_title">
+                    <button id="modal_close">X</button>
+                    Текст
+                </div>
+                <div class="modal_navig">
+                    <button class="modal_navig_button" id = "navig_size">Размер</button>
+                    <button class="modal_navig_button" id = "navig_bread">Хлеб</button>
+                    <button class="modal_navig_button" id = "navig_vegetable">Овощи</button>
+                    <button class="modal_navig_button" id = "navig_sauce">Соусы</button>
+                    <button class="modal_navig_button" id = "navig_filling">Начинка</button>
+                    <button class="modal_navig_button" id = "navig_finish">Готово!</button>
+                </div>
+                <div id="modal_np_buttons">
+                    <button id = "modal_previous">< НАЗАД</button>
+                    <button id = "modal_next">ВПЕРЕД ></button>
+                </div>
+                <div id="modal_options">
+                    <div class="modal_option">
+                        <div class = "option_img_frame">
+                            <img class = "option_img" src="assets/i/bread/grey-with-cereal.png" alt="">
+                        </div>
+                        <table class = "product_description">
+                            <thead>
+                                <th>Хлеп</th>
+                            </thead>
+                            <tfoot>
+                                <tr><td>Цена: 0 руб.</td></tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <div class="modal_option">
+                        <div class = "option_img_frame">
+                            <img class = "option_img" src="assets/i/bread/grey-with-cereal.png" alt="">
+                        </div>
+                        <table class = "product_description">
+                            <thead>
+                                <th>Хлеп</th>
+                            </thead>
+                            <tfoot>
+                                <tr><td>Цена: 0 руб.</td></tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <div class="modal_option">
+                        <div class = "option_img_frame">
+                            <img class = "option_img" src="assets/i/bread/grey-with-cereal.png" alt="">
+                        </div>
+                        <table class = "product_description">
+                            <thead>
+                                <th>Хлеп</th>
+                            </thead>
+                            <tfoot>
+                                <tr><td>Цена: 0 руб.</td></tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <div class="modal_option">
+                        <div class = "option_img_frame">
+                            <img class = "option_img" src="assets/i/bread/grey-with-cereal.png" alt="">
+                        </div>
+                        <table class = "product_description">
+                            <thead>
+                                <th>Хлеп</th>
+                            </thead>
+                            <tfoot>
+                                <tr><td>Цена: 0 руб.</td></tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal_foot">
+                    Итого: 0 руб.
+                </div>
+            </div>
+        </div>
+
+
         <div id = "menu">
             <div id = "navig">
                 <button class="navig_button" id = "navig_pizza">Пицца</button>
@@ -49,5 +130,6 @@
     <script src="scripts/product_list.js" type="module"></script>
     <script src="scripts/products.js" type="module"></script>
     <script src="scripts/menu.js" type="module"></script>
+    <script src="scripts/sandwiches_options.js" type="module"></script>
 </body>
 </html>
