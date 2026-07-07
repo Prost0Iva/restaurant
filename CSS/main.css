@@ -41,6 +41,9 @@ main {
     background-color: #ffffff;
     padding: 10px;
 }.navig_button:hover {
+    background-color: #ffbf0065;
+    color: #000000;
+}.navig_button:disabled {
     background-color: #ffc000;
     color: #ffffff;
 }
@@ -136,22 +139,26 @@ main {
 .product {
     display: grid;
     justify-items: center;
-    margin: 25px;
+    margin: 10px;
+    width: 32%;
 }
 .product_market {
-    width: 300px;
+    width: 250px;
     margin-bottom: 20px;
 }
-.product_img {
+.product_img_frame {
     height: 220px;
     width: 220px;
     display: grid;
-    justify-content: center;
     align-content: center;
+    justify-items: center;
     border-radius: 50%;
     background-color: #ffffff;
     outline: 15px solid #f5c300;
     margin-bottom: 20px;
+}
+.product_img {
+    width: 80%;
 }
 .product_description {
     margin: 8px;

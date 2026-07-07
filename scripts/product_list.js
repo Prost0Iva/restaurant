@@ -1,22 +1,25 @@
 document.addEventListener('DOMContentLoaded', function() {
-    pageFill();
+    pageFill('sandwiches');
 });
 
-async function pageFill() {
+export async function pageFill(page) {
     const prod_list = document.getElementById('product_list')
 
     const response = await fetch('assets/data.json');
     const products = await response.json();
 
     products.menu.forEach(prod => {
-        if (prod.category == "sandwiches") {
-            let market_src = products.markets[prod.market].image
+        if (prod.category == page) {
+            let market_src = ""
+            if (products.markets[prod.market] !== undefined) {
+                market_src = products.markets[prod.market].image
+            }
 
-            prod_list.insertAdjacentHTML("afterbegin",
+            prod_list.insertAdjacentHTML("beforeend",
             `<div class = "product">
                     <img class="product_market" src="assets${market_src}" alt="">
-                    <div class = "product_img">
-                        <img src="assets${prod.image}" alt="">
+                    <div class = "product_img_frame">
+                        <img class = "product_img" src="assets${prod.image}" alt="">
                     </div>
                     <table class = "product_description">
                         <thead>
@@ -33,7 +36,7 @@ async function pageFill() {
                         <p>КОЛИЧЕСТВО</p>
                         <div class="product_val_changer">
                             <button class = "product_val_remove">-</button>
-                            <div class="product_val_indicator">0</div>
+                            <div class="product_val_indicator">1</div>
                             <button class = "product_val_add">+</button>
                         </div>
                     </div>
@@ -42,35 +45,6 @@ async function pageFill() {
             )
         }
     });
-
-    //prod_list.insertAdjacentHTML("afterbegin",
-    //    `<div class = "product">
-    //            <img class="product_market" src="assets/img/markets/subway_logo.png" alt="">
-    //            <div class = "product_img">
-    //                <img src="assets/img/sandwiches/ovoshnoy.png" alt="">
-    //            </div>
-    //            <table class = "product_description">
-    //                <thead>
-    //                    <th>Овощной</th>
-    //                </thead>
-    //                <tbody>
-    //                    <td>Соус и овощи на выбор</td>
-    //                </tbody>
-    //                <tfoot>
-    //                    <tr><td>Цена: 110 руб.</td></tr>
-    //                </tfoot>
-    //            </table>
-    //            <div class = "product_value">
-    //                <p>КОЛИЧЕСТВО</p>
-    //                <div class="product_val_changer">
-    //                    <button class = "product_val_remove">-</button>
-    //                    <div class="product_val_indicator">0</div>
-    //                    <button class = "product_val_add">+</button>
-    //                </div>
-    //            </div>
-    //            <button class = "product_add_to_cart">В КОРЗИНУ</button>
-    //        </div>`
-    //)
     
     document.dispatchEvent(new CustomEvent('productListFilled'));
 }

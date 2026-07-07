@@ -1,6 +1,4 @@
-
 document.addEventListener('productListFilled', function() {
-
     const products = document.querySelectorAll('.product');
     products.forEach(product => {
         const add_val = product.querySelector('.product_val_add');
@@ -34,7 +32,6 @@ document.addEventListener('productListFilled', function() {
                 cart.children[1].append(order)
 
                 cart.children[2].children[0].innerHTML = `<td colspan="3">Итого: ${totalPrice(cart, price)} руб.</td>`
-                //console.log(totalPrice(cart, price))
             }
         })
     })
