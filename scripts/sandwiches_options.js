@@ -1,13 +1,19 @@
-const modalOverlay = document.getElementById('modal_overlay');
-const modalClose = document.getElementById('modal_close');
+const modal_overlay = document.getElementById('modal_overlay');
+const modal_close = document.getElementById('modal_close');
 
-function openModal() {
-    modalOverlay.classList.add('active');
+function open_modal() {
+    modal_overlay.classList.add('active');
 }
 
-function closeModal() {
-    modalOverlay.classList.remove('active');
+function close_modal() {
+    modal_overlay.classList.remove('active');
 }
 
-modalClose.addEventListener('click', closeModal);
-openModal()
+modal_close.addEventListener('click', close_modal);
+document.addEventListener('productListFilled', function() {
+    const products = document.querySelectorAll('.product');
+    products.forEach(product => {
+        const desc = product.querySelector('.custom_hyper_text');
+        desc.addEventListener('click', open_modal)
+    })
+})

@@ -171,9 +171,15 @@ main {
     padding-bottom: 8px;
 }
 .product_description tbody tr td {
+    text-align: center;
     border-bottom: 3px solid #3e3f42;
     padding-bottom: 25px;
     font-size: 16px;
+}
+.custom_hyper_text {
+    color: #3f87c6;
+    text-decoration: underline;
+    cursor: pointer;
 }
 .product_description tfoot tr td {
     color: #d85d38;

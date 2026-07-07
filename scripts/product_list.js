@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    pageFill('sandwiches');
+    pageFill("sandwiches");
 });
 
 export async function pageFill(page) {
@@ -7,6 +7,11 @@ export async function pageFill(page) {
 
     const response = await fetch('assets/data.json');
     const products = await response.json();
+
+    let options = ""
+    if (page == "sandwiches") {
+        options = "custom_hyper_text"
+    }
 
     products.menu.forEach(prod => {
         if (prod.category == page) {
@@ -26,7 +31,7 @@ export async function pageFill(page) {
                         <th>${prod.name}</th>
                     </thead>
                     <tbody>
-                        <td>${prod.description}</td>
+                        <td class=${options}>${prod.description}</td>
                     </tbody>
                     <tfoot>
                         <tr><td>Цена: ${prod.price} руб.</td></tr>
