@@ -1,3 +1,5 @@
+import {fillOptions} from './sandwiches_options.js';
+
 const modal_overlay = document.getElementById('modal_overlay');
 const modal_close = document.getElementById('modal_close');
 const navig = document.querySelectorAll('.modal_navig_button');
@@ -51,26 +53,26 @@ async function optionPageFill(page) {
 
     Object.entries(options).forEach(([k, v]) => {
         if (k == page && page != "finish") {
-            Object.values(options[k]).forEach(option => {
-                    options_list.insertAdjacentHTML("beforeend",
-                `<div class="modal_option">
-                    <div class = "option_img_frame">
-                        <img class = "option_img" src="assets${option.image}" alt="">
-                    </div>
-                    <table class = "product_description">
-                        <thead>
-                            <th>${option.name}</th>
-                        </thead>
-                        <tfoot>
-                            <tr><td>Цена: ${option.price} руб.</td></tr>
-                        </tfoot>
-                    </table>
-                </div>`
+            Object.entries(options[k]).forEach(([k, option]) => {
+                options_list.insertAdjacentHTML("beforeend",
+                    `<div class="modal_option" id="${k}">
+                        <div class = "option_img_frame">
+                            <img class = "option_img" src="assets${option.image}" alt="">
+                        </div>
+                        <table class = "product_description">
+                            <thead>
+                                <th>${option.name}</th>
+                            </thead>
+                            <tfoot>
+                                <tr><td>Цена: ${option.price} руб.</td></tr>
+                            </tfoot>
+                        </table>
+                    </div>`
                 )
             })
         }
     });
-    
+    fillOptions(page.slice(0, -1))
     document.dispatchEvent(new CustomEvent('optionsListFilled'));
 }
 

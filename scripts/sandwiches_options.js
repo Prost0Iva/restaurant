@@ -1,5 +1,13 @@
 const navig = document.querySelectorAll('.modal_navig_button');
 
+let components = {
+    size: "1x",
+    bread: "white-italian",
+    vegetable: [],
+    sauce: [],
+    filling: []
+}
+
 document.addEventListener('optionsListFilled', function() {
     const options = document.querySelectorAll('.modal_option')
     options.forEach(option => {
@@ -21,3 +29,16 @@ document.addEventListener('optionsListFilled', function() {
         })
     });
 })
+
+export function fillOptions(page){
+    const options = document.querySelectorAll('.modal_option')
+    options.forEach(option => {
+        Object.values(components).forEach(v => {
+            console.log(option.id)
+            console.log(v)
+            if (option.id == v) {
+                option.style.backgroundColor = "#f6d846"
+            }
+        })
+    })
+}
