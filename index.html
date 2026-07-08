@@ -11,25 +11,25 @@
 
         
         <div id="modal_overlay">
-            <div class="modal">
-                <div class="modal_title">
+            <div id="modal">
+                <div id="modal_title">
                     <button id="modal_close">X</button>
-                    Текст
+                    <span id="modal_title_text">Текст</span>
                 </div>
-                <div class="modal_navig">
+                <div id="modal_navig">
                     <button class="modal_navig_button" id = "navig_sizes">Размер</button>
                     <button class="modal_navig_button" id = "navig_breads">Хлеб</button>
                     <button class="modal_navig_button" id = "navig_vegetables">Овощи</button>
                     <button class="modal_navig_button" id = "navig_sauces">Соусы</button>
                     <button class="modal_navig_button" id = "navig_fillings">Начинка</button>
-                    <button class="modal_navig_button" id = "navig_finish">Готово!</button>
+                    <button class="modal_navig_button" id = "navig_finishs">Готово!</button>
                 </div>
                 <div id="modal_np_buttons">
                     <button id = "modal_previous" style="visibility: hidden;">< НАЗАД</button>
                     <button id = "modal_next">ВПЕРЕД ></button>
                 </div>
                 <div id="modal_options"></div>
-                <div class="modal_foot">
+                <div id="modal_foot">
                     Итого: 0 руб.
                 </div>
             </div>
@@ -78,5 +78,6 @@
     <script src="scripts/products.js" type="module"></script>
     <script src="scripts/menu.js" type="module"></script>
     <script src="scripts/sandwiches_options.js" type="module"></script>
+    <script src="scripts/sandwiches_options_navig.js" type="module"></script>
 </body>
 </html>
