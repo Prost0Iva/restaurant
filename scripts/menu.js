@@ -10,8 +10,6 @@ navig.forEach(button => {
             }
         })
         button.disabled = true
-        const prod_list = document.getElementById('product_list')
-        prod_list.innerHTML = '';
         pageFill(button.id.slice(6))
     })
 })

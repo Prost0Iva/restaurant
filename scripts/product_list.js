@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 export async function pageFill(page) {
     const prod_list = document.getElementById('product_list')
+    prod_list.innerHTML = '';
 
     const response = await fetch('assets/data.json');
     const products = await response.json();

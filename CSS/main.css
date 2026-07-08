@@ -249,7 +249,11 @@ main {
     background: rgba(0, 0, 0, 0.5);
     z-index: 1000;
     justify-items: center;
-    align-items: center;
+
+    align-items: start;
+    overflow-y: auto;
+    scrollbar-gutter: stable;
+
 }#modal_overlay.active {
     display: grid;
 }
@@ -262,6 +266,7 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top:100px;
 }
 .modal_title {
     display: grid;
@@ -329,8 +334,13 @@ main {
 }
 
 #modal_np_buttons {
+    display: grid;
     margin-top: 15px;
     font-family: 'Roboto';
+    grid-auto-flow: column;
+    align-content: space-between;
+    justify-content: space-between;
+    width: 90%;
 }
 #modal_np_buttons button {
     width: 140px;
@@ -344,14 +354,9 @@ main {
     border-radius: 5px;
     box-shadow: 0px 2px 0px 0px #793927;
 }
-#modal_previous {
-    margin-right: 287px;
-}
-#modal_next {
-    margin-left: 287px;
-}
 
 #modal_options {
+    width: 100%;
     margin-top: 15px;
     display: flex;
     justify-content: center;
