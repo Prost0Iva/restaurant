@@ -19,52 +19,27 @@ function closeModal() {
 }
 function changePage(page) {
     let i = 0
+    let temp_page = ""
     navig.forEach(v => {
-        if ((v.id != `navig_${page}`) || (i != page)) {
-            v.disabled = false
+        if (typeof page == "string") {v.disabled = (v.id === `navig_${page}`)}
+        if (typeof page == "number") {
+            if (i != page) {
+                v.disabled = false
+            } else {
+                v.disabled = true;
+                temp_page = v.id.slice(6)
+            }
+            i++
         }
-        else {v.disabled = true;}
-        i++
     })
-    optionPageFill(page)
+    if (temp_page == "") {
+        optionPageFill(page)
+    } else optionPageFill(temp_page)
+    console.log(modal_next)
+    if (page == 0 || page == navig[0].id.slice(6)) {modal_previous.style.visibility = "hidden"} else modal_previous.style.visibility = ""
+    if (page == navig.length-1 || page == navig[navig.length-1].id.slice(6)) {modal_next.style.visibility = "hidden"} else modal_next.style.visibility = ""
 }
-
-modal_next.addEventListener('click', function(){
-    let i = 0
-    navig.forEach(v => {
-        if (v.disabled) {
-            changePage(i+1)
-            return
-        }
-        i++
-    })
-});
-modal_previous.addEventListener('click', function(){
-    let i = 0
-    navig.forEach(v => {
-        if (v.disabled) {
-            changePage(i-1)
-            return
-        }
-        i++
-    })
-});
-modal_close.addEventListener('click', closeModal);
-document.addEventListener('productListFilled', function() {
-    const products = document.querySelectorAll('.product');
-    products.forEach(product => {
-        const desc = product.querySelector('.custom_hyper_text');
-        desc.addEventListener('click', openModal)
-    })
-})
-
-navig.forEach(button => {
-    button.addEventListener('click', function() {
-        changePage(button.id.slice(6))
-    })
-})
-
-export async function optionPageFill(page) {
+async function optionPageFill(page) {
     const options_list = document.getElementById('modal_options')
     options_list.innerHTML = '';
 
@@ -95,3 +70,43 @@ export async function optionPageFill(page) {
     
     document.dispatchEvent(new CustomEvent('productListFilled'));
 }
+
+modal_next.addEventListener('click', function(){
+    let i = 0
+    navig.forEach(v => {
+        if (v.disabled) {
+            changePage(i+1)
+            return
+        }
+        i++
+    })
+});
+modal_previous.addEventListener('click', function(){
+    let i = 0
+    navig.forEach(v => {
+        if (v.disabled) {
+            changePage(i-1)
+            return
+        }
+        i++
+    })
+});
+modal_close.addEventListener('click', closeModal);
+modal_overlay.addEventListener('click', function(e) {
+    if (e.target === modal_overlay) {
+        closeModal();
+    }
+});
+document.addEventListener('productListFilled', function() {
+    const products = document.querySelectorAll('.product');
+    products.forEach(product => {
+        const desc = product.querySelector('.custom_hyper_text');
+        desc.addEventListener('click', openModal)
+    })
+})
+
+navig.forEach(button => {
+    button.addEventListener('click', function() {
+        changePage(button.id.slice(6))
+    })
+})
