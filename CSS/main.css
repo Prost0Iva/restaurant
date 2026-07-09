@@ -371,6 +371,9 @@ main {
     border-radius: 6px;
     margin: 10px;
 }
+.modal_option_active {
+    background-color: #f6d846;
+}
 .option_img_frame {
     height: 170px;
     width: 170px;

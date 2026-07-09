@@ -20,6 +20,7 @@ function openModal() {
 function closeModal() {
     modal_overlay.classList.remove('active');
     document.body.style.overflow = '';
+    document.dispatchEvent(new CustomEvent('optionsClosed'));
 }
 function changePage(page) {
     let i = 0
@@ -53,9 +54,9 @@ async function optionPageFill(page) {
 
     Object.entries(options).forEach(([k, v]) => {
         if (k == page && page != "finish") {
-            Object.entries(options[k]).forEach(([k, option]) => {
+            Object.entries(options[k]).forEach(([id, option]) => {
                 options_list.insertAdjacentHTML("beforeend",
-                    `<div class="modal_option" id="${k}">
+                    `<div class="modal_option" id="${id}">
                         <div class = "option_img_frame">
                             <img class = "option_img" src="assets${option.image}" alt="">
                         </div>
