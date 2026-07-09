@@ -3,7 +3,7 @@ const navig = document.querySelectorAll('.modal_navig_button');
 const response = await fetch('assets/data.json');
 const data = await response.json();
 
-let components = {
+export let components = {
     size: "1x",
     bread: "white-italian",
     vegetable: [],

@@ -388,3 +388,38 @@ main {
 .option_img {
     width: 80%;
 }
+
+#modal_finish {
+    display: grid;
+    grid-auto-flow: column;
+    align-items: center;
+    width: 100%;
+    justify-content: start;
+    padding-left: 100px;
+    margin-top: 5px;
+    margin-bottom: 50px;
+}
+#finish_description {
+    margin-left: 50px;
+    color: #3e3f42;
+    font-family: 'Roboto';
+    font-size: 22px;
+    border-collapse: collapse;
+    text-align: start;
+    width: 80%;
+}
+#finish_description thead th {
+    border-bottom: 2px solid #3e3f42;
+    text-align: start;
+}
+#finish_description tbody tr td {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 16px;
+}
+#finish_description tfoot tr td {
+    border-top: 2px solid #3e3f42;
+    padding-top: 25px;
+    font-size: 22px;
+    font-weight: 600;
+}
