@@ -1,4 +1,5 @@
 import {cart, menuCartUpd} from './cart.js'
+
 document.addEventListener('productListFilled', function() {
     const products = document.querySelectorAll('.product');
     products.forEach(product => {
@@ -23,13 +24,23 @@ document.addEventListener('productListFilled', function() {
         })
         add_to_cart.addEventListener('click', function() {
             if (Number(val.textContent) > 0) {
-                cart.positions.push(
-                    {
-                        name: prod_desc.children[0].firstElementChild.textContent.trim(),
-                        count: Number(val.textContent),
-                        price: Number(prod_desc.children[2].firstElementChild.textContent.split(" ")[1])
+                let temp_name = prod_desc.children[0].firstElementChild.textContent.trim()
+                let matched = false
+                cart.positions.forEach(pos => {
+                    let temp_components = JSON.stringify(pos.components)
+                    if(pos.name == temp_name && temp_components == JSON.stringify({})) {
+                        pos.count += Number(val.textContent)
+                        matched = true
                     }
-                )
+                })
+                if(!matched){
+                    cart.positions.push({
+                        name: temp_name,
+                        count: Number(val.textContent),
+                        price: Number(prod_desc.children[2].firstElementChild.textContent.split(" ")[1]),
+                        components: {}
+                    })
+                }
                 menuCartUpd()
             }
         })

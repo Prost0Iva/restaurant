@@ -4,13 +4,18 @@ const modal_foot = document.getElementById('modal_cart_foot');
 const cart_button = document.getElementById('cart_button')
 const modal_cart = document.getElementById('modal_cart');
 const menu_cart = document.getElementById('cart_content')
-const response = await fetch('assets/data.json');
-const data = await response.json();
 
 export let cart = {
     positions: [],
     total_price: 0
 }
+
+let data;
+async function init() {
+    const response = await fetch('assets/data.json');
+    data = await response.json();
+}
+const dataReady = init();
 
 function openModal() {
     modalCartUpd()
@@ -21,7 +26,8 @@ function closeModal() {
     modal_overlay.classList.remove('active');
     document.body.style.overflow = '';
 }
-function modalCartUpd() {
+async function modalCartUpd() {
+    await dataReady;
     modal_cart.innerHTML = ''
     let i = 0
     cart.positions.forEach(position => {

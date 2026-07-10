@@ -1,4 +1,5 @@
-import {fillOptions, components} from './sandwiches_options.js';
+import {fillOptions, components} from './sandwiches_options.js'
+import {cart, menuCartUpd} from './cart.js'
 
 const modal_overlay = document.getElementById('modal_overlay');
 const modal_close = document.getElementById('modal_close');
@@ -10,7 +11,7 @@ const modal_foot = document.getElementById('modal_foot');
 const response = await fetch('assets/data.json');
 const options = await response.json();
 
-let sandwich_data
+export let sandwich_data
 
 function openModal(desc) {
     sandwich_data = desc
@@ -156,7 +157,8 @@ async function optionPageFill(page) {
                 </div>
             </div>
             <p id="modal_total_price">Итого: 0 руб.</p>
-            <button class = "product_add_to_cart">В КОРЗИНУ</button>`
+            <button class = "product_add_to_cart modal_add_to_cart">В КОРЗИНУ</button>`
+            finishButtons()
     } else {
         modal_foot.innerHTML = 
             `<p id="modal_total_price">Итого: 0 руб.</p>`
@@ -164,6 +166,35 @@ async function optionPageFill(page) {
     priceUpd()
     fillOptions(page.slice(0, -1))
     document.dispatchEvent(new CustomEvent('optionsListFilled'));
+}
+function finishButtons() {
+    document.querySelector('.modal_val_remove').addEventListener('click', function(){
+        if(Number(document.querySelector('.modal_val_indicator').textContent) > 1) {
+            document.querySelector('.modal_val_indicator').textContent = Number(document.querySelector('.modal_val_indicator').textContent) - 1
+        }
+    })
+    document.querySelector('.modal_val_add').addEventListener('click', function(){
+        document.querySelector('.modal_val_indicator').textContent = Number(document.querySelector('.modal_val_indicator').textContent) + 1
+    })
+    document.querySelector('.modal_add_to_cart').addEventListener('click', function(){
+        let temp_name = sandwich_data.querySelector('thead th').textContent.trim()
+        let matched = false
+        cart.positions.forEach(pos => {
+            if(pos.name == temp_name && JSON.stringify(pos.components) == JSON.stringify(components)) {
+                pos.count += Number(document.querySelector('.modal_val_indicator').textContent)
+                matched = true
+            }
+        })
+        if(!matched){
+            cart.positions.push({
+                name: sandwich_data.querySelector('thead th').textContent.trim(),
+                count: Number(document.querySelector('.modal_val_indicator').textContent),
+                price: Number(modal_foot.querySelector('#modal_total_price').textContent.trim().split(" ")[1]),
+                components: components
+            })
+        }
+        menuCartUpd()
+    })
 }
 
 modal_next.addEventListener('click', function(){
