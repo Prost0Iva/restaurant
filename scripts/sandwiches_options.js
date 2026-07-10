@@ -23,11 +23,6 @@ export function fillOptions(page){
             } else {
                 if(option.id == components[page]){option.classList.add("modal_option_active")}
             }
-            //console.log(k)
-            //if (option.id == v) {
-            //    option.classList.add("modal_option_active")
-            //}
-        //})
     })
 }
 
@@ -50,13 +45,24 @@ document.addEventListener('optionsListFilled', function() {
             })
 
             if(data.settings[page].multiple == true){
-                if (option.classList.contains("modal_option_active")) {
-                    option.classList.remove("modal_option_active")
-                    components[page].splice(components[page].indexOf(option.id), 1)
-                }
-                else {
-                    option.classList.add("modal_option_active")
-                    components[page].push(option.id)
+                if(page == "sauce"){
+                    if (!option.classList.contains("modal_option_active") && document.querySelectorAll(".modal_option_active").length < 3) {
+                        option.classList.add("modal_option_active")
+                        components[page].push(option.id)
+                    }
+                    else {
+                        option.classList.remove("modal_option_active")
+                        components[page].splice(components[page].indexOf(option.id), 1)
+                    }
+                } else {
+                    if (option.classList.contains("modal_option_active")) {
+                        option.classList.remove("modal_option_active")
+                        components[page].splice(components[page].indexOf(option.id), 1)
+                    }
+                    else {
+                        option.classList.add("modal_option_active")
+                        components[page].push(option.id)
+                    }
                 }
             } else {
                 options.forEach(v => {v.classList.remove("modal_option_active")})
