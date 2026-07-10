@@ -1,3 +1,5 @@
+import {priceUpd} from './sandwiches_options_navig.js'
+
 const navig = document.querySelectorAll('.modal_navig_button');
 
 const response = await fetch('assets/data.json');
@@ -10,10 +12,8 @@ export let components = {
     sauce: [],
     filling: []
 }
-
 export function fillOptions(page){
     const options = document.querySelectorAll('.modal_option')
-    console.log(components)
     options.forEach(option => {
         //Object.entries(components).forEach(([k, v]) => {
             if(data.settings[page].multiple == true){
@@ -63,6 +63,7 @@ document.addEventListener('optionsListFilled', function() {
                 option.classList.add("modal_option_active")
                 components[page] = option.id
             }
+            priceUpd()
         })
     });
 })

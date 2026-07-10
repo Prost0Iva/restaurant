@@ -7,10 +7,13 @@ const modal_previous = document.getElementById('modal_previous');
 const modal_next = document.getElementById('modal_next');
 const modal_title_text = document.getElementById('modal_title_text');
 const modal_foot = document.getElementById('modal_foot');
+const response = await fetch('assets/data.json');
+const options = await response.json();
 
 let sandwich_data
 
 function openModal(desc) {
+    sandwich_data = desc
     navig.forEach(v => {
         v.disabled = false
     })
@@ -18,13 +21,14 @@ function openModal(desc) {
     optionPageFill("sizes")
     modal_overlay.classList.add('active');
     document.body.style.overflow = 'hidden';
-    sandwich_data = desc
     //console.log(desc.querySelector('thead th').textContent.trim())
 }
 function closeModal() {
     modal_overlay.classList.remove('active');
     document.body.style.overflow = '';
     sandwich_data = undefined
+    const modal_price =  modal_foot.querySelector('#modal_total_price')
+    modal_price.textContent = `Итого: 0 руб.`
 
     document.dispatchEvent(new CustomEvent('optionsClosed'));
 }
@@ -49,14 +53,35 @@ function changePage(page) {
     if (page == 0 || page == navig[0].id.slice(6)) {modal_previous.style.visibility = "hidden"} else modal_previous.style.visibility = ""
     if (page == navig.length-1 || page == navig[navig.length-1].id.slice(6)) {modal_next.style.visibility = "hidden"} else modal_next.style.visibility = ""
 }
+export function priceUpd() {
+    let sandwich_price = Number(sandwich_data.querySelector('tfoot tr td').textContent.trim().split(" ")[1])
+    let components_price = 0
+    Object.entries(components).forEach(([type, comp]) => {
+        let price = 0
+        Object.entries(options[type+'s']).forEach(([k, v]) => {
+            if(typeof comp == 'string'){
+                if(comp == k) {
+                    price = v.price
+                }
+            } else {
+                comp.forEach(comp_v => {
+                    if (comp_v == k) {
+                        price += v.price
+                    }
+                })
+            }
+        })
+        components_price += price
+    })
+    let total_price = sandwich_price + components_price
+    const modal_price =  modal_foot.querySelector('#modal_total_price')
+    modal_price.textContent = `Итого: ${total_price} руб.`
+}
 async function optionPageFill(page) {
     const options_list = document.getElementById('modal_options')
     const finish = document.getElementById('modal_finish')
     options_list.innerHTML = '';
     finish.innerHTML = ''
-
-    const response = await fetch('assets/data.json');
-    const options = await response.json();
 
     modal_title_text.textContent = options.settings[page.slice(0, -1)].title
 
@@ -99,6 +124,7 @@ async function optionPageFill(page) {
                     })
                 }
             })
+            if(str == "") {str = "Нет"}
             components_list.push(str)
         })
         finish.innerHTML = 
@@ -120,8 +146,22 @@ async function optionPageFill(page) {
                     <tr><td>${sandwich_data.querySelector('thead th').textContent.trim()}</td></tr>
                 </tfoot>
             </table>`
+        modal_foot.innerHTML = 
+            `<div id = "modal_value">
+                <p>КОЛИЧЕСТВО</p>
+                <div id="modal_val_changer">
+                    <button id = "modal_val_remove">-</button>
+                    <div id="modal_val_indicator">1</div>
+                    <button id = "modal_val_add">+</button>
+                </div>
+            </div>
+            <p id="modal_total_price">Итого: 0 руб.</p>
+            <button class = "product_add_to_cart">В КОРЗИНУ</button>`
+    } else {
+        modal_foot.innerHTML = 
+            `<p id="modal_total_price">Итого: 0 руб.</p>`
     }
-        
+    priceUpd()
     fillOptions(page.slice(0, -1))
     document.dispatchEvent(new CustomEvent('optionsListFilled'));
 }
