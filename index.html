@@ -8,7 +8,6 @@
 <body>
     <div id = "title">СДЕЛАЙТЕ ЗАКАЗ НАПРЯМУЮ ИЗ РЕСТОРАНА</div>
     <main>
-
         
         <div id="modal_overlay">
             <div id="modal">
@@ -31,16 +30,21 @@
                 <div id="modal_options"></div>
                 <div id="modal_finish"></div>
                 <div id="modal_foot">
-                    <div id = "modal_value">
-                        <p>КОЛИЧЕСТВО</p>
-                        <div id="modal_val_changer">
-                            <button id = "modal_val_remove">-</button>
-                            <div id="modal_val_indicator">1</div>
-                            <button id = "modal_val_add">+</button>
-                        </div>
-                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="modal_cart_overlay">
+            <div id="modal">
+                <div id="modal_title">
+                    <button id="modal_cart_close">X</button>
+                    <span id="modal_title_text">Проверьте и подтвердите заказ</span>
+                </div>
+                <div id="modal_cart">
+                </div>
+                <div id="modal_cart_foot">
                     <p id="modal_total_price">Итого: 0 руб.</p>
-                    <button class = "product_add_to_cart">В КОРЗИНУ</button>
+                    <button id = "confirm_the_order">Подтвердить заказ</button>
                 </div>
             </div>
         </div>
@@ -88,5 +92,6 @@
     <script src="scripts/menu.js" type="module"></script>
     <script src="scripts/sandwiches_options.js" type="module"></script>
     <script src="scripts/sandwiches_options_navig.js" type="module"></script>
+    <script src="scripts/cart.js" type="module"></script>
 </body>
 </html>

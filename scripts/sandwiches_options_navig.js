@@ -149,10 +149,10 @@ async function optionPageFill(page) {
         modal_foot.innerHTML = 
             `<div id = "modal_value">
                 <p>КОЛИЧЕСТВО</p>
-                <div id="modal_val_changer">
-                    <button id = "modal_val_remove">-</button>
-                    <div id="modal_val_indicator">1</div>
-                    <button id = "modal_val_add">+</button>
+                <div class="modal_val_changer">
+                    <button class = "modal_val_remove">-</button>
+                    <div class="modal_val_indicator">1</div>
+                    <button class = "modal_val_add">+</button>
                 </div>
             </div>
             <p id="modal_total_price">Итого: 0 руб.</p>
