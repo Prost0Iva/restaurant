@@ -1,6 +1,6 @@
 import {pageFill} from './product_list.js';
 
-const navig = document.querySelectorAll('.navig_button');
+const navig = document.querySelectorAll('.navig-button');
 
 navig.forEach(button => {
     button.addEventListener('click', function() {

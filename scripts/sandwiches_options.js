@@ -1,6 +1,6 @@
 import {priceUpd} from './sandwiches_options_navig.js'
 
-const navig = document.querySelectorAll('.modal_navig_button');
+const navig = document.querySelectorAll('.modal-navig-button');
 
 const response = await fetch('assets/data.json');
 const data = await response.json();
@@ -13,15 +13,15 @@ export let components = {
     filling: []
 }
 export function fillOptions(page){
-    const options = document.querySelectorAll('.modal_option')
+    const options = document.querySelectorAll('.modal-option')
     options.forEach(option => {
         //Object.entries(components).forEach(([k, v]) => {
             if(data.settings[page].multiple == true){
                 if(components[page].includes(option.id)){
-                    option.classList.add("modal_option_active")
+                    option.classList.add("modal-option-active")
                 }
             } else {
-                if(option.id == components[page]){option.classList.add("modal_option_active")}
+                if(option.id == components[page]){option.classList.add("modal-option-active")}
             }
     })
 }
@@ -36,37 +36,37 @@ document.addEventListener('optionsClosed', function(){
     }
 })
 document.addEventListener('optionsListFilled', function() {
-    const options = document.querySelectorAll('.modal_option')
+    const options = document.querySelectorAll('.modal-option')
     options.forEach(option => {
         option.addEventListener('click', async function(){
             let page = ""
             navig.forEach(v => {
                 if(v.disabled){page = v.id.slice(6, -1)}
             })
-
+            
             if(data.settings[page].multiple == true){
                 if(page == "sauce"){
-                    if (!option.classList.contains("modal_option_active") && document.querySelectorAll(".modal_option_active").length < 3) {
-                        option.classList.add("modal_option_active")
+                    if (!option.classList.contains("modal-option-active") && document.querySelectorAll(".modal-option-active").length < 3) {
+                        option.classList.add("modal-option-active")
                         components[page].push(option.id)
                     }
                     else {
-                        option.classList.remove("modal_option_active")
+                        option.classList.remove("modal-option-active")
                         components[page].splice(components[page].indexOf(option.id), 1)
                     }
                 } else {
-                    if (option.classList.contains("modal_option_active")) {
-                        option.classList.remove("modal_option_active")
+                    if (option.classList.contains("modal-option-active")) {
+                        option.classList.remove("modal-option-active")
                         components[page].splice(components[page].indexOf(option.id), 1)
                     }
                     else {
-                        option.classList.add("modal_option_active")
+                        option.classList.add("modal-option-active")
                         components[page].push(option.id)
                     }
                 }
             } else {
-                options.forEach(v => {v.classList.remove("modal_option_active")})
-                option.classList.add("modal_option_active")
+                options.forEach(v => {v.classList.remove("modal-option-active")})
+                option.classList.add("modal-option-active")
                 components[page] = option.id
             }
             priceUpd()

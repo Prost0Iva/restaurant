@@ -1,9 +1,13 @@
+
+
+
+
 document.addEventListener('DOMContentLoaded', function() {
     pageFill("sandwiches");
 });
 
 export async function pageFill(page) {
-    const prod_list = document.getElementById('product_list')
+    const prod_list = document.getElementById('product-list')
     prod_list.innerHTML = '';
 
     const response = await fetch('assets/data.json');
@@ -11,7 +15,7 @@ export async function pageFill(page) {
 
     let options = ""
     if (page == "sandwiches") {
-        options = "custom_hyper_text"
+        options = "custom-hyper-text"
     }
 
     products.menu.forEach(prod => {
@@ -23,11 +27,11 @@ export async function pageFill(page) {
 
             prod_list.insertAdjacentHTML("beforeend",
             `<div class = "product">
-                <img class="product_market" src="assets${market_src}" alt="">
-                <div class = "product_img_frame">
-                    <img class = "product_img" src="assets${prod.image}" alt="">
+                <img class="product-market" src="assets${market_src}" alt="">
+                <div class = "product-img-frame">
+                    <img class = "product-img" src="assets${prod.image}" alt="">
                 </div>
-                <table class = "product_description">
+                <table class = "product-description">
                     <thead>
                         <th>${prod.name}</th>
                     </thead>
@@ -38,15 +42,15 @@ export async function pageFill(page) {
                         <tr><td>Цена: ${prod.price} руб.</td></tr>
                     </tfoot>
                 </table>
-                <div class = "product_value">
+                <div class = "product-value">
                     <p>КОЛИЧЕСТВО</p>
-                    <div class="product_val_changer">
-                        <button class = "product_val_remove">-</button>
-                        <div class="product_val_indicator">1</div>
-                        <button class = "product_val_add">+</button>
+                    <div class="product-val-changer">
+                        <button class = "product-val-remove">-</button>
+                        <div class="product-val-indicator">1</div>
+                        <button class = "product-val-add">+</button>
                     </div>
                 </div>
-                <button class = "product_add_to_cart">В КОРЗИНУ</button>
+                <button class = "product-add-to-cart">В КОРЗИНУ</button>
             </div>`
             )
         }

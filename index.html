@@ -9,82 +9,80 @@
     <div id = "title">СДЕЛАЙТЕ ЗАКАЗ НАПРЯМУЮ ИЗ РЕСТОРАНА</div>
     <main>
         
-        <div id="modal_overlay">
+        <div id="modal-overlay">
             <div id="modal">
-                <div id="modal_title">
-                    <button id="modal_close">X</button>
-                    <span id="modal_title_text">Текст</span>
+                <div id="modal-title">
+                    <button id="modal-close">X</button>
+                    <span id="modal-title-text">Текст</span>
                 </div>
-                <div id="modal_navig">
-                    <button class="modal_navig_button" id = "navig_sizes">Размер</button>
-                    <button class="modal_navig_button" id = "navig_breads">Хлеб</button>
-                    <button class="modal_navig_button" id = "navig_vegetables">Овощи</button>
-                    <button class="modal_navig_button" id = "navig_sauces">Соусы</button>
-                    <button class="modal_navig_button" id = "navig_fillings">Начинка</button>
-                    <button class="modal_navig_button" id = "navig_finishs">Готово!</button>
+                <div id="modal-navig">
+                    <button class="modal-navig-button" id = "navig-sizes">Размер</button>
+                    <button class="modal-navig-button" id = "navig-breads">Хлеб</button>
+                    <button class="modal-navig-button" id = "navig-vegetables">Овощи</button>
+                    <button class="modal-navig-button" id = "navig-sauces">Соусы</button>
+                    <button class="modal-navig-button" id = "navig-fillings">Начинка</button>
+                    <button class="modal-navig-button" id = "navig-finishs">Готово!</button>
                 </div>
-                <div id="modal_np_buttons">
-                    <button id = "modal_previous" style="visibility: hidden;">< НАЗАД</button>
-                    <button id = "modal_next">ВПЕРЕД ></button>
+                <div id="modal-np-buttons">
+                    <button id = "modal-previous">< НАЗАД</button>
+                    <button id = "modal-next">ВПЕРЕД ></button>
                 </div>
-                <div id="modal_options"></div>
-                <div id="modal_finish"></div>
-                <div id="modal_foot">
+                <div id="modal-options"></div>
+                <div id="modal-finish"></div>
+                <div id="modal-foot">
                 </div>
             </div>
         </div>
 
-        <div id="modal_cart_overlay">
+        <div id="modal-cart-overlay">
             <div id="modal">
-                <div id="modal_title">
-                    <button id="modal_cart_close">X</button>
-                    <span id="modal_title_text">Проверьте и подтвердите заказ</span>
+                <div id="modal-title">
+                    <button id="modal-cart-close">X</button>
+                    <span id="modal-title-text">Проверьте и подтвердите заказ</span>
                 </div>
-                <div id="modal_cart">
+                <div id="modal-cart">
                 </div>
-                <div id="modal_cart_foot">
-                    <p id="modal_total_price">Итого: 0 руб.</p>
-                    <button id = "confirm_the_order">Подтвердить заказ</button>
+                <div id="modal-cart-foot">
+                    <p id="modal-total-price">Итого: 0 руб.</p>
+                    <button id = "confirm-the-order">Подтвердить заказ</button>
                 </div>
             </div>
         </div>
 
         <div id = "menu">
             <div id = "navig">
-                <button class="navig_button" id = "navig_pizza">Пицца</button>
-                <button class="navig_button" id = "navig_shaurma">Шаурма</button>
-                <button class="navig_button" id = "navig_sandwiches" disabled>Сэндвичи</button>
-                <button class="navig_button" id = "navig_burgers">Бургеры</button>
-                <button class="navig_button" id = "navig_chicken">Курица & Картофель</button>
-                <button class="navig_button" id = "navig_salads">Тортилья & Салаты</button>
-                <button class="navig_button" id = "navig_drinks">Напитки & Десерты</button>
+                <button class="navig-button" id = "navig-pizza">Пицца</button>
+                <button class="navig-button" id = "navig-shaurma">Шаурма</button>
+                <button class="navig-button" id = "navig-sandwiches" disabled>Сэндвичи</button>
+                <button class="navig-button" id = "navig-burgers">Бургеры</button>
+                <button class="navig-button" id = "navig-chicken">Курица & Картофель</button>
+                <button class="navig-button" id = "navig-salads">Тортилья & Салаты</button>
+                <button class="navig-button" id = "navig-drinks">Напитки & Десерты</button>
             </div>
             <div id = "cart">
-                <div id = "cart_title">
-                        <img src="assets/i/cart.png" alt="" id = "cart_img">
-                        <div id = "cart_shadow"></div>
+                <div id = "cart-title">
+                        <img src="assets/i/cart.png" alt="" id = "cart-img">
+                        <div id = "cart-shadow"></div>
                         <p>Корзина</p>
                         
                 </div>
-                <div id = "cart_manage">
-                    <table id = "cart_content">
-                        <thead>
-                            <th>Название</th>
-                            <th>Количество</th>
-                            <th>Цена</th>
-                        </thead>
+                <table class = "cart-content">
+                    <thead>
+                        <th>Название</th>
+                        <th>Количество</th>
+                        <th>Цена</th>
+                    </thead>
+                </table>
+                <div id = "cart-manage">
+                    <table class = "cart-content">
                         <tbody></tbody>
-                        <tfoot>
-                            <tr>
-                              <td colspan="3">Итого: 0 руб.</td>
-                            </tr>
-                        </tfoot>
                     </table>
-                    <button id = "cart_button">ОФОРМИТЬ ЗАКАЗ</button>
                 </div>
+                <p id="cart-total-price">Итого: 0 руб.</p>
+                <button id = "cart-button" disabled>ОФОРМИТЬ ЗАКАЗ</button>
             </div>
         </div>
-        <div id = "product_list">
+        <div id = "product-list">
         </div>
     </main>
     <script src="scripts/product_list.js" type="module"></script>

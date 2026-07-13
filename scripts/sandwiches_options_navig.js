@@ -1,13 +1,13 @@
 import {fillOptions, components} from './sandwiches_options.js'
 import {cart, menuCartUpd} from './cart.js'
 
-const modal_overlay = document.getElementById('modal_overlay');
-const modal_close = document.getElementById('modal_close');
-const navig = document.querySelectorAll('.modal_navig_button');
-const modal_previous = document.getElementById('modal_previous');
-const modal_next = document.getElementById('modal_next');
-const modal_title_text = document.getElementById('modal_title_text');
-const modal_foot = document.getElementById('modal_foot');
+const modal_overlay = document.getElementById('modal-overlay');
+const modal_close = document.getElementById('modal-close');
+const navig = document.querySelectorAll('.modal-navig-button');
+const modal_previous = document.getElementById('modal-previous');
+const modal_next = document.getElementById('modal-next');
+const modal_title_text = document.getElementById('modal-title-text');
+const modal_foot = document.getElementById('modal-foot');
 const response = await fetch('assets/data.json');
 const options = await response.json();
 
@@ -21,14 +21,16 @@ function openModal(desc) {
     navig[0].disabled = true
     optionPageFill("sizes")
     modal_overlay.classList.add('active');
-    document.body.style.overflow = 'hidden';
+    document.body.classList.add('scrollbar-off')
+    modal_previous.classList.add('hidden')
+    modal_next.classList.remove('hidden')
     //console.log(desc.querySelector('thead th').textContent.trim())
 }
 function closeModal() {
     modal_overlay.classList.remove('active');
-    document.body.style.overflow = '';
+    document.body.classList.remove('scrollbar-off')
     sandwich_data = undefined
-    const modal_price =  modal_foot.querySelector('#modal_total_price')
+    const modal_price =  modal_foot.querySelector('#modal-total-price')
     modal_price.textContent = `Итого: 0 руб.`
 
     document.dispatchEvent(new CustomEvent('optionsClosed'));
@@ -37,7 +39,7 @@ function changePage(page) {
     let i = 0
     let temp_page = ""
     navig.forEach(v => {
-        if (typeof page == "string") {v.disabled = (v.id === `navig_${page}`)}
+        if (typeof page == "string") {v.disabled = (v.id === `navig-${page}`)}
         if (typeof page == "number") {
             if (i != page) {
                 v.disabled = false
@@ -51,8 +53,8 @@ function changePage(page) {
     if (temp_page == "") {
         optionPageFill(page)
     } else optionPageFill(temp_page)
-    if (page == 0 || page == navig[0].id.slice(6)) {modal_previous.style.visibility = "hidden"} else modal_previous.style.visibility = ""
-    if (page == navig.length-1 || page == navig[navig.length-1].id.slice(6)) {modal_next.style.visibility = "hidden"} else modal_next.style.visibility = ""
+    if (page == 0 || page == navig[0].id.slice(6)) {modal_previous.classList.add('hidden')} else modal_previous.classList.remove('hidden')
+    if (page == navig.length-1 || page == navig[navig.length-1].id.slice(6)) {modal_next.classList.add('hidden')} else modal_next.classList.remove('hidden')
 }
 export function priceUpd() {
     let sandwich_price = Number(sandwich_data.querySelector('tfoot tr td').textContent.trim().split(" ")[1])
@@ -75,12 +77,12 @@ export function priceUpd() {
         components_price += price
     })
     let total_price = sandwich_price + components_price
-    const modal_price =  modal_foot.querySelector('#modal_total_price')
+    const modal_price =  modal_foot.querySelector('#modal-total-price')
     modal_price.textContent = `Итого: ${total_price} руб.`
 }
 async function optionPageFill(page) {
-    const options_list = document.getElementById('modal_options')
-    const finish = document.getElementById('modal_finish')
+    const options_list = document.getElementById('modal-options')
+    const finish = document.getElementById('modal-finish')
     options_list.innerHTML = '';
     finish.innerHTML = ''
 
@@ -90,11 +92,11 @@ async function optionPageFill(page) {
         if (k == page && page != "finishs") {
             Object.entries(options[k]).forEach(([id, option]) => {
                 options_list.insertAdjacentHTML("beforeend",
-                    `<div class="modal_option" id="${id}">
-                        <div class = "option_img_frame">
-                            <img class = "option_img" src="assets${option.image}" alt="">
+                    `<div class="modal-option" id="${id}">
+                        <div class = "option-img-frame">
+                            <img class = "option-img" src="assets${option.image}" alt="">
                         </div>
-                        <table class = "product_description">
+                        <table class = "product-description">
                             <thead>
                                 <th>${option.name}</th>
                             </thead>
@@ -128,11 +130,13 @@ async function optionPageFill(page) {
             if(str == "") {str = "Нет"}
             components_list.push(str)
         })
+        options_list.classList.add("hidden")
+        finish.classList.remove("hidden")
         finish.innerHTML = 
-            `<div class = "option_img_frame">
-                <img class = "option_img" src="assets/i/result_sandwich.jpg" alt="">
+            `<div class = "option-img-frame">
+                <img class = "option-img" src="assets/i/result_sandwich.jpg" alt="">
             </div>
-            <table id = "finish_description">
+            <table id = "finish-description">
                 <thead>
                     <th>Ваш сендвич готов!</th>
                 </thead>
@@ -148,52 +152,55 @@ async function optionPageFill(page) {
                 </tfoot>
             </table>`
         modal_foot.innerHTML = 
-            `<div id = "modal_value">
+            `<div id = "modal-value">
                 <p>КОЛИЧЕСТВО</p>
-                <div class="modal_val_changer">
-                    <button class = "modal_val_remove">-</button>
-                    <div class="modal_val_indicator">1</div>
-                    <button class = "modal_val_add">+</button>
+                <div class="modal-val-changer">
+                    <button class = "modal-val-remove">-</button>
+                    <div class="modal-val-indicator">1</div>
+                    <button class = "modal-val-add">+</button>
                 </div>
             </div>
-            <p id="modal_total_price">Итого: 0 руб.</p>
-            <button class = "product_add_to_cart modal_add_to_cart">В КОРЗИНУ</button>`
+            <p id="modal-total-price">Итого: 0 руб.</p>
+            <button class = "product-add-to-cart modal-add-to-cart">В КОРЗИНУ</button>`
             finishButtons()
     } else {
+        options_list.classList.remove("hidden")
+        finish.classList.add("hidden")
         modal_foot.innerHTML = 
-            `<p id="modal_total_price">Итого: 0 руб.</p>`
+            `<p id="modal-total-price">Итого: 0 руб.</p>`
     }
     priceUpd()
     fillOptions(page.slice(0, -1))
     document.dispatchEvent(new CustomEvent('optionsListFilled'));
 }
 function finishButtons() {
-    document.querySelector('.modal_val_remove').addEventListener('click', function(){
-        if(Number(document.querySelector('.modal_val_indicator').textContent) > 1) {
-            document.querySelector('.modal_val_indicator').textContent = Number(document.querySelector('.modal_val_indicator').textContent) - 1
+    document.querySelector('.modal-val-remove').addEventListener('click', function(){
+        if(Number(document.querySelector('.modal-val-indicator').textContent) > 1) {
+            document.querySelector('.modal-val-indicator').textContent = Number(document.querySelector('.modal-val-indicator').textContent) - 1
         }
     })
-    document.querySelector('.modal_val_add').addEventListener('click', function(){
-        document.querySelector('.modal_val_indicator').textContent = Number(document.querySelector('.modal_val_indicator').textContent) + 1
+    document.querySelector('.modal-val-add').addEventListener('click', function(){
+        document.querySelector('.modal-val-indicator').textContent = Number(document.querySelector('.modal-val-indicator').textContent) + 1
     })
-    document.querySelector('.modal_add_to_cart').addEventListener('click', function(){
+    document.querySelector('.modal-add-to-cart').addEventListener('click', function(){
         let temp_name = sandwich_data.querySelector('thead th').textContent.trim()
         let matched = false
         cart.positions.forEach(pos => {
             if(pos.name == temp_name && JSON.stringify(pos.components) == JSON.stringify(components)) {
-                pos.count += Number(document.querySelector('.modal_val_indicator').textContent)
+                pos.count += Number(document.querySelector('.modal-val-indicator').textContent)
                 matched = true
             }
         })
         if(!matched){
             cart.positions.push({
                 name: sandwich_data.querySelector('thead th').textContent.trim(),
-                count: Number(document.querySelector('.modal_val_indicator').textContent),
-                price: Number(modal_foot.querySelector('#modal_total_price').textContent.trim().split(" ")[1]),
+                count: Number(document.querySelector('.modal-val-indicator').textContent),
+                price: Number(modal_foot.querySelector('#modal-total-price').textContent.trim().split(" ")[1]),
                 components: components
             })
         }
         menuCartUpd()
+        closeModal()
     })
 }
 
@@ -226,8 +233,8 @@ modal_overlay.addEventListener('click', function(e) {
 document.addEventListener('productListFilled', function() {
     const products = document.querySelectorAll('.product');
     products.forEach(product => {
-        const hyper_text = product.querySelector('.custom_hyper_text');
-        const desc = product.querySelector('.product_description');
+        const hyper_text = product.querySelector('.custom-hyper-text');
+        const desc = product.querySelector('.product-description');
         hyper_text.addEventListener('click', function(){openModal(desc)})
     })
 })
