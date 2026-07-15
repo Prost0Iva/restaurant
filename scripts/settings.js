@@ -1,6 +1,8 @@
 import { data } from './main.js'
 import { Option } from './option.js'
 
+const modal_overlay = document.getElementById('modal-overlay');
+
 export class Settings {
     constructor(){
         this.categories = {}
@@ -33,6 +35,7 @@ export class Settings {
                     b.disabled = false
                 })
                 button.disabled = true
+                this.fillOptions(k)
             })
             navig.appendChild(button)
             if(first){
@@ -48,17 +51,23 @@ export class Settings {
             let option = new Option(k, v.name, v.description, v.price, v.image)
             this.categories[category].options.push(option)
         })
+        this.renderPage(category)
     }
 
     renderPage(category){
+        const title = document.getElementById('modal-title-text')
         const list = document.getElementById('modal-options')
+        title.textContent = this.categories[category].title
         list.innerHTML = ''
         this.categories[category].options.forEach(option => {
             list.appendChild(option.render())
         })
     }
 
-    open(){
-
+    open(components){
+        modal_overlay.classList.add('active');
+    }
+    close(){
+        modal_overlay.classList.remove('active');
     }
 }

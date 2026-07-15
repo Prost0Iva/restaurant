@@ -1,4 +1,5 @@
 import { createValChanger } from "./value.js"
+import { settings } from "./main.js"
 
 export class Product {
     constructor(name, description, image, marketImage, price, category, market, type, components){
@@ -48,6 +49,9 @@ export class Product {
         const tbody = document.createElement('tbody');
         const td = document.createElement('td');
         td.className = this.type;
+        if(this.type == 'multiple'){td.addEventListener('click', ()=>{
+            settings.open()
+        })}
         td.textContent = this.description;
         tbody.appendChild(td);
         table.appendChild(tbody);
@@ -72,16 +76,5 @@ export class Product {
         product.appendChild(addToCartBtn);
 
         return product
-    }
-
-    buttonValRemove(indicator){
-        let v = Number(indicator.textContent)
-        if(v > 0){v--}
-        indicator.textContent = v
-    }
-    buttonValAdd(indicator){
-        let v = Number(indicator.textContent)
-        v++
-        indicator.textContent = v
     }
 }
