@@ -1,6 +1,10 @@
+import { settings } from "./main.js"
+
 export class Option {
-    constructor(type, name, description, price, image){
+    constructor(type, category, multiple, name, description, price, image){
         this.type = type,
+        this.category = category,
+        this.multiple = multiple,
         this.name = name,
         this.description = description,
         this.price = price,
@@ -10,6 +14,7 @@ export class Option {
     render(){
         const option = document.createElement('div')
         option.classList.add('modal-option')
+        option.addEventListener('click',()=>{this.select(option)})
 
         const imgFrame = document.createElement('div')
         imgFrame.classList.add('option-img-frame')
@@ -37,5 +42,25 @@ export class Option {
         option.appendChild(description)
 
         return option
+    }
+
+    select(option){
+        if(this.multiple){
+            if(option.classList.contains("modal-option-active")){
+                option.classList.remove("modal-option-active")
+                settings.components[this.category].splice(settings.components[this.category].indexOf(this.type), 1)
+            }
+            else {
+                option.classList.add("modal-option-active")
+                settings.components[this.category].push(this.type)
+            }
+        } else {
+            const options = document.querySelectorAll('.modal-option')
+            options.forEach(o => {
+                o.classList.remove("modal-option-active")
+            })
+            option.classList.add("modal-option-active")
+            settings.components[this.category] = this.type
+        }
     }
 }

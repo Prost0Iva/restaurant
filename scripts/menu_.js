@@ -17,21 +17,7 @@ export class Menu {
         this.renderMenuButtons()
     }
     
-    fillProducts(category){
-        if(this.categories[category].products.length > 0){this.renderPage(category); return}
-        data.menu.forEach(prod => {
-            if(prod.category == category){
-                let components = []
-                let marketImage = ""
-                if(prod.type == "multiple"){components = prod.components}
-                if(prod.market !== ""){marketImage = data.markets[prod.market].image}
-                let product = new Product(prod.name, prod.description, prod.image, marketImage, prod.price, prod.category, prod.market, prod.type, components)
-                this.categories[category].products.push(product)
-            }
-        })
-        this.renderPage(category)
-    }
-
+    
     renderMenuButtons(){
         let first = true
         const navig = document.getElementById('navig')
@@ -45,7 +31,7 @@ export class Menu {
                     b.disabled = false
                 })
                 button.disabled = true
-                this.fillProducts(k)
+                this.renderPage(k)
             })
             navig.appendChild(button)
             if(first){
@@ -54,7 +40,22 @@ export class Menu {
             }
         })
     }
+
+    fillProducts(category){
+        data.menu.forEach(prod => {
+            if(prod.category == category){
+                let components = []
+                let marketImage = ""
+                if(prod.type == "multiple"){components = prod.components}
+                if(prod.market !== ""){marketImage = data.markets[prod.market].image}
+                let product = new Product(prod.name, prod.description, prod.image, marketImage, prod.price, prod.category, prod.market, prod.type, components)
+                this.categories[category].products.push(product)
+            }
+        })
+    }
+
     renderPage(category){
+        if(this.categories[category].products.length == 0){this.fillProducts(category)}
         const list = document.getElementById('product-list')
         list.innerHTML = ''
         this.categories[category].products.forEach(prod => {

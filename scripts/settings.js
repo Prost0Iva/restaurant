@@ -5,12 +5,13 @@ const modal_overlay = document.getElementById('modal-overlay');
 
 export class Settings {
     constructor(){
+        this.components = {}
         this.categories = {}
     }
 
     fillCategories(){
         Object.entries(data.settings).forEach(([k, v]) => {
-            let multiple = v.multiple || false
+            const multiple = v.multiple || false
             this.categories[k] = {
                 name: v.name,
                 type: v.object,
@@ -19,12 +20,12 @@ export class Settings {
                 options: []
             }
         })
-        this.renderNavigButtons()
     }
 
     renderNavigButtons(){
         let first = true
         const navig = document.getElementById('modal-navig')
+        navig.innerHTML = ''
         Object.entries(this.categories).forEach(([k, v]) => {
             let button = document.createElement('button');
             button.classList.add('modal-navig-button')
@@ -35,7 +36,7 @@ export class Settings {
                     b.disabled = false
                 })
                 button.disabled = true
-                this.fillOptions(k)
+                this.renderPage(k)
             })
             navig.appendChild(button)
             if(first){
@@ -46,25 +47,34 @@ export class Settings {
     }
 
     fillOptions(category){
-        if(this.categories[category].options.length > 0){this.renderPage(category); return}
         Object.entries(data[this.categories[category].type]).forEach(([k, v]) => {
-            let option = new Option(k, v.name, v.description, v.price, v.image)
+            let option = new Option(k, category, this.categories[category].multiple, v.name, v.description, v.price, v.image)
             this.categories[category].options.push(option)
         })
-        this.renderPage(category)
     }
 
     renderPage(category){
+        if(this.categories[category].options.length == 0){this.fillOptions(category)}
         const title = document.getElementById('modal-title-text')
         const list = document.getElementById('modal-options')
         title.textContent = this.categories[category].title
         list.innerHTML = ''
         this.categories[category].options.forEach(option => {
-            list.appendChild(option.render())
+            const o = option.render()
+            if(this.categories[category].multiple && this.components[category].length > 0){
+                this.components[category].forEach(t => {
+                    if(option.type == t){
+                        option.select(o)
+                    }
+                })
+            } else {if(option.type == this.components[category]){option.select(o)}}
+            list.appendChild(o)
         })
     }
 
     open(components){
+        this.components = components
+        this.renderNavigButtons()
         modal_overlay.classList.add('active');
     }
     close(){

@@ -50,7 +50,7 @@ export class Product {
         const td = document.createElement('td');
         td.className = this.type;
         if(this.type == 'multiple'){td.addEventListener('click', ()=>{
-            settings.open()
+            settings.open(this.components)
         })}
         td.textContent = this.description;
         tbody.appendChild(td);
@@ -77,4 +77,5 @@ export class Product {
 
         return product
     }
+
 }
