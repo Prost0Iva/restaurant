@@ -7,6 +7,8 @@ export class Settings {
     constructor(){
         this.components = {}
         this.categories = {}
+        this.originPrice = 0
+        this.totalPrice = 0
     }
 
     fillCategories(){
@@ -64,20 +66,41 @@ export class Settings {
             if(this.categories[category].multiple && this.components[category].length > 0){
                 this.components[category].forEach(t => {
                     if(option.type == t){
-                        option.select(o)
+                        o.classList.add("modal-option-active")
                     }
                 })
-            } else {if(option.type == this.components[category]){option.select(o)}}
+            } else {if(option.type == this.components[category]){o.classList.add("modal-option-active")}}
             list.appendChild(o)
         })
     }
 
-    open(components){
-        this.components = components
+    open(components, price){
+        this.originPrice = price
+        this.updTotalPrice()
+        this.components = structuredClone(components)
         this.renderNavigButtons()
         modal_overlay.classList.add('active');
     }
     close(){
         modal_overlay.classList.remove('active');
+    }
+
+    updTotalPrice(){
+        this.totalPrice = this.originPrice
+        const footPrice = document.getElementById('modal-total-price')
+        Object.entries(this.components).forEach(([k, v]) => {
+            if(this.categories[k].multiple){
+                this.categories[k].options.forEach(option => {
+                    v.forEach(type => {
+                        if(type == option.type){this.totalPrice += option.price}
+                    })
+                })
+            } else {
+                this.categories[k].options.forEach(option => {
+                    if(v == option.type){this.totalPrice += option.price}
+                })
+            }
+        })
+        footPrice.textContent = `Итого: ${this.totalPrice} руб.`
     }
 }

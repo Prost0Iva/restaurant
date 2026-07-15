@@ -62,5 +62,6 @@ export class Option {
             option.classList.add("modal-option-active")
             settings.components[this.category] = this.type
         }
+        settings.updTotalPrice()
     }
 }
