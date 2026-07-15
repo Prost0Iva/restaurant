@@ -212,13 +212,13 @@ main {
     border-bottom: 3px solid #3e3f42;
     padding-bottom: 8px;
 }
-.product-description tbody tr td {
+.product-description tbody td {
     text-align: center;
     border-bottom: 3px solid #3e3f42;
     padding-bottom: 25px;
     font-size: 16px;
 }
-.custom-hyper-text {
+.multiple {
     color: #3f87c6;
     text-decoration: underline;
     cursor: pointer;
@@ -227,15 +227,15 @@ main {
     color: #d85d38;
     text-align: center;
 }
-.product-value {
+.value {
     margin-top: -18px;
     text-align: center;
 }
-.product-val-changer {
+.val-changer {
     display: grid;
     grid-auto-flow: column;
 }
-.product-val-changer button {
+.val-changer button {
     height: 30px;
     width: 30px;
     font-size: 25px;
@@ -254,7 +254,7 @@ main {
     -1px -1px 1px rgba(0, 0, 0, 0.5),
     1px 1px 1px rgba(255, 255, 255, 0.8);
 }
-.product-val-indicator {
+.val-indicator {
     background-color: #ffffff;
     display: grid;
     justify-content: center;

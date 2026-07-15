@@ -1,0 +1,87 @@
+import { createValChanger } from "./value.js"
+
+export class Product {
+    constructor(name, description, image, marketImage, price, category, market, type, components){
+        this.name = name
+        this.description = description
+        this.image = image
+        this.marketImage = marketImage
+        this.price = price
+        this.category = category
+        this.market = market
+        this.type = type
+        this.components = components
+    }
+
+    render(){
+        const product = document.createElement('div');
+        product.className = 'product';
+
+        // Картинка рынка
+        const marketImg = document.createElement('img');
+        marketImg.className = 'product-market';
+        if(this.marketImage == ""){marketImg.src = ""}
+        else marketImg.src = `assets${this.marketImage}`;
+        product.appendChild(marketImg);
+
+        // Рамка с картинкой товара
+        const imgFrame = document.createElement('div');
+        imgFrame.className = 'product-img-frame';
+
+        const prodImg = document.createElement('img');
+        prodImg.className = 'product-img';
+        prodImg.src = `assets${this.image}`;
+        imgFrame.appendChild(prodImg);
+
+        product.appendChild(imgFrame);
+
+        // Таблица описания
+        const table = document.createElement('table');
+        table.className = 'product-description';
+
+        const thead = document.createElement('thead');
+        const th = document.createElement('th');
+        th.textContent = this.name;
+        thead.appendChild(th);
+        table.appendChild(thead);
+
+        const tbody = document.createElement('tbody');
+        const td = document.createElement('td');
+        td.className = this.type;
+        td.textContent = this.description;
+        tbody.appendChild(td);
+        table.appendChild(tbody);
+
+        const tfoot = document.createElement('tfoot');
+        const tr = document.createElement('tr');
+        const priceTd = document.createElement('td');
+        priceTd.textContent = `Цена: ${this.price} руб.`;
+        tr.appendChild(priceTd);
+        tfoot.appendChild(tr);
+        table.appendChild(tfoot);
+
+        product.appendChild(table);
+
+        // Блок количества
+        product.appendChild(createValChanger());
+
+        // Кнопка "В корзину"
+        const addToCartBtn = document.createElement('button');
+        addToCartBtn.className = 'product-add-to-cart';
+        addToCartBtn.textContent = 'В КОРЗИНУ';
+        product.appendChild(addToCartBtn);
+
+        return product
+    }
+
+    buttonValRemove(indicator){
+        let v = Number(indicator.textContent)
+        if(v > 0){v--}
+        indicator.textContent = v
+    }
+    buttonValAdd(indicator){
+        let v = Number(indicator.textContent)
+        v++
+        indicator.textContent = v
+    }
+}

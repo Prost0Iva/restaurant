@@ -90,7 +90,6 @@ document.addEventListener('modalCartUpdated', function(){
     })
 })
 document.addEventListener('menuCartUpdated', function(){
-    const delete_pos_buttons = document.querySelectorAll('.')
 
     if (cart.positions.length < 1) {cart_button.disabled = true}
     else {cart_button.disabled = false}
