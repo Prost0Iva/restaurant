@@ -352,7 +352,10 @@ main {
     font-family: 'Times New Roman';
     font-weight: 600;
 }
-#modal-total-price {
+.modal-total-price {
+    margin-bottom: 0px;
+}
+.modal-cart-total-price {
     margin-bottom: 0px;
 }
 #modal-navig {

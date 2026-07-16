@@ -21,12 +21,16 @@ export class CartPosition {
     render() {
         const pos = createCartCard(this.name, this.val, this.price, this.image, this.description, this);
         const list = document.getElementById('modal-cart');
-        const val = pos.querySelector('.val-indicator').textContent;
+        console.log(pos.querySelector('.val-remove'));
         pos.querySelector('.val-remove').addEventListener('click', () => {
-            this.val = Number(val);
+            console.log(Number(pos.querySelector('.val-indicator').textContent));
+            this.val = Number(pos.querySelector('.val-indicator').textContent);
             cart.updMenuCart();
         });
-        pos.querySelector('.val-add');
+        pos.querySelector('.val-add').addEventListener('click', () => {
+            this.val = Number(pos.querySelector('.val-indicator').textContent);
+            cart.updMenuCart();
+        });
         list.appendChild(pos);
     }
 }

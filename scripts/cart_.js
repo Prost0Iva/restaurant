@@ -11,8 +11,6 @@ export class Cart {
     addToCart(name, val, price, components, image, description) {
         let posFind = false;
         this.positions.forEach((pos) => {
-            console.log(components);
-            console.log(pos.components);
             if (pos.name == name && JSON.stringify(pos.components) == JSON.stringify(components)) {
                 pos.val += val;
                 this.updMenuCart();
@@ -31,7 +29,7 @@ export class Cart {
             this.totalPrice += pos.price * pos.val;
         });
         const menuTotalPrice = document.getElementById('cart-total-price');
-        const modalTotalPrice = document.getElementById('modal-total-price');
+        const modalTotalPrice = document.getElementById('modal-cart-total-price');
         menuTotalPrice.textContent = `Итого: ${this.totalPrice} руб.`;
         modalTotalPrice.textContent = `Итого: ${this.totalPrice} руб.`;
     }
