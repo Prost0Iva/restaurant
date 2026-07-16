@@ -1,106 +1,180 @@
-import { data } from './main.js'
-import { Option } from './option.js'
+import { data } from './main.js';
+import { Option } from './option.js';
+import { createFinishPage } from './finish_page.js';
 
-const modal_overlay = document.getElementById('modal-overlay');
+const modalOverlay = document.getElementById('modal-overlay');
 
 export class Settings {
-    constructor(){
-        this.components = {}
-        this.categories = {}
-        this.originPrice = 0
-        this.totalPrice = 0
+    constructor() {
+        this.components = {};
+        this.categories = {};
+        this.originPrice = 0;
+        this.totalPrice = 0;
+        this.prodName = '';
+        this.image = '';
+        this.description = '';
     }
 
-    fillCategories(){
+    fillCategories() {
         Object.entries(data.settings).forEach(([k, v]) => {
-            const multiple = v.multiple || false
+            const multiple = v.multiple || false;
             this.categories[k] = {
                 name: v.name,
                 type: v.object,
                 title: v.title,
                 multiple: multiple,
                 options: []
-            }
-        })
+            };
+        });
     }
 
-    renderNavigButtons(){
-        let first = true
-        const navig = document.getElementById('modal-navig')
-        navig.innerHTML = ''
+    renderNavigButtons() {
+        let first = true;
+        const navig = document.getElementById('modal-navig');
+        navig.innerHTML = '';
         Object.entries(this.categories).forEach(([k, v]) => {
             let button = document.createElement('button');
-            button.classList.add('modal-navig-button')
-            button.textContent = v.name
-            button.addEventListener('click', ()=>{
-                const navigButtons = document.querySelectorAll('.modal-navig-button')
-                navigButtons.forEach(b => {
-                    b.disabled = false
-                })
-                button.disabled = true
-                this.renderPage(k)
-            })
-            navig.appendChild(button)
-            if(first){
-                button.click()
-                first = false
+            button.classList.add('modal-navig-button');
+            button.textContent = v.name;
+            button.addEventListener('click', () => {
+                const navigButtons = document.querySelectorAll('.modal-navig-button');
+                navigButtons.forEach((b) => {
+                    b.disabled = false;
+                });
+                button.disabled = true;
+                if (k !== 'finish') {
+                    this.renderPage(k);
+                } else this.renderFinishPage();
+            });
+            navig.appendChild(button);
+            if (first) {
+                button.click();
+                first = false;
             }
-        })
+        });
     }
 
-    fillOptions(category){
+    fillOptions(category) {
         Object.entries(data[this.categories[category].type]).forEach(([k, v]) => {
-            let option = new Option(k, category, this.categories[category].multiple, v.name, v.description, v.price, v.image)
-            this.categories[category].options.push(option)
-        })
+            let option = new Option(
+                k,
+                category,
+                this.categories[category].multiple,
+                v.name,
+                v.description,
+                v.price,
+                v.image
+            );
+            this.categories[category].options.push(option);
+        });
     }
 
-    renderPage(category){
-        if(this.categories[category].options.length == 0){this.fillOptions(category)}
-        const title = document.getElementById('modal-title-text')
-        const list = document.getElementById('modal-options')
-        title.textContent = this.categories[category].title
-        list.innerHTML = ''
-        this.categories[category].options.forEach(option => {
-            const o = option.render()
-            if(this.categories[category].multiple && this.components[category].length > 0){
-                this.components[category].forEach(t => {
-                    if(option.type == t){
-                        o.classList.add("modal-option-active")
+    renderPage(category) {
+        if (this.categories[category].options.length == 0) {
+            this.fillOptions(category);
+        }
+
+        const title = document.getElementById('modal-title-text');
+        const list = document.getElementById('modal-options');
+        const finish = document.getElementById('modal-finish');
+        const modalFoot = document.getElementById('modal-foot');
+        finish.innerHTML = '';
+        list.classList.remove('hidden');
+        finish.classList.add('hidden');
+        if (
+            modalFoot.querySelector('.value') !== null &&
+            modalFoot.querySelector('.product-add-to-cart') !== null
+        ) {
+            modalFoot.removeChild(modalFoot.querySelector('.value'));
+            modalFoot.removeChild(modalFoot.querySelector('.product-add-to-cart'));
+        }
+        title.textContent = this.categories[category].title;
+        list.innerHTML = '';
+        this.categories[category].options.forEach((option) => {
+            const o = option.render();
+            if (this.categories[category].multiple && this.components[category].length > 0) {
+                this.components[category].forEach((t) => {
+                    if (option.type == t) {
+                        o.classList.add('modal-option-active');
                     }
-                })
-            } else {if(option.type == this.components[category]){o.classList.add("modal-option-active")}}
-            list.appendChild(o)
-        })
-    }
-
-    open(components, price){
-        this.originPrice = price
-        this.updTotalPrice()
-        this.components = structuredClone(components)
-        this.renderNavigButtons()
-        modal_overlay.classList.add('active');
-    }
-    close(){
-        modal_overlay.classList.remove('active');
-    }
-
-    updTotalPrice(){
-        this.totalPrice = this.originPrice
-        const footPrice = document.getElementById('modal-total-price')
-        Object.entries(this.components).forEach(([k, v]) => {
-            if(this.categories[k].multiple){
-                this.categories[k].options.forEach(option => {
-                    v.forEach(type => {
-                        if(type == option.type){this.totalPrice += option.price}
-                    })
-                })
+                });
             } else {
-                this.categories[k].options.forEach(option => {
-                    if(v == option.type){this.totalPrice += option.price}
-                })
+                if (option.type == this.components[category]) {
+                    o.classList.add('modal-option-active');
+                }
             }
-        })
-        footPrice.textContent = `Итого: ${this.totalPrice} руб.`
+            list.appendChild(o);
+        });
+        this.updTotalPrice();
+    }
+
+    renderFinishPage() {
+        const title = document.getElementById('modal-title-text');
+        title.textContent = this.categories['finish'].title;
+        const optionList = document.getElementById('modal-options');
+        optionList.innerHTML = '';
+        const finishComponents = {};
+        Object.entries(this.categories).forEach(([k, v]) => {
+            if (k !== 'finish') {
+                finishComponents[v.name] = '';
+                v.options.forEach((option) => {
+                    if (typeof this.components[k] == 'string' && this.components[k] == option.type) {
+                        finishComponents[v.name] += `${option.name}; `;
+                    }
+                    if (typeof this.components[k] == 'object') {
+                        typeof this.components[k].forEach((type) => {
+                            if (type == option.type) {
+                                finishComponents[v.name] += `${option.name}; `;
+                            }
+                        });
+                    }
+                });
+            }
+        });
+        createFinishPage(
+            finishComponents,
+            this.prodName,
+            this.totalPrice,
+            this.components,
+            this.image,
+            this.description
+        );
+    }
+
+    open(components, price, name, image) {
+        this.components = structuredClone(components);
+        this.originPrice = price;
+        this.prodName = name;
+        this.image = image;
+        this.updTotalPrice();
+        this.renderNavigButtons();
+        modalOverlay.classList.add('active');
+    }
+    close() {
+        modalOverlay.classList.remove('active');
+    }
+
+    updTotalPrice() {
+        this.totalPrice = this.originPrice;
+        const footPrice = document.getElementById('modal-total-price');
+        const modalFoot = document.getElementById('modal-foot');
+        Object.entries(this.components).forEach(([k, v]) => {
+            if (this.categories[k].multiple) {
+                this.categories[k].options.forEach((option) => {
+                    v.forEach((type) => {
+                        if (type == option.type) {
+                            this.totalPrice += option.price;
+                        }
+                    });
+                });
+            } else {
+                this.categories[k].options.forEach((option) => {
+                    if (v == option.type) {
+                        this.totalPrice += option.price;
+                    }
+                });
+            }
+        });
+        footPrice.textContent = `Итого: ${this.totalPrice} руб.`;
     }
 }
