@@ -73,8 +73,10 @@ export class Cart {
     open() {
         cartOverlay.classList.add('active');
         this.updModalCart();
+        document.body.classList.add('scrollbar-off');
     }
     close() {
         cartOverlay.classList.remove('active');
+        document.body.classList.remove('scrollbar-off');
     }
 }

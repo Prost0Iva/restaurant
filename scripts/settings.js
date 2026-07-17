@@ -202,9 +202,11 @@ export class Settings {
         this.renderNavigButtons();
         this.renderNPButtons();
         modalOverlay.classList.add('active');
+        document.body.classList.add('scrollbar-off');
     }
     close() {
         modalOverlay.classList.remove('active');
+        document.body.classList.add('scrollbar-off');
     }
 
     updTotalPrice() {
