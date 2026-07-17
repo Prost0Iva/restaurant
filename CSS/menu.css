@@ -1,0 +1,96 @@
+#navig {
+    min-height: 67px;
+    max-width: 320px;
+    margin: 20px;
+    border-radius: 5px;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 4px 0px #000000;
+    overflow: hidden;
+}
+.navig-button {
+    font-size: 20px;
+    align-content: center;
+    text-align: center;
+    width: 100%;
+    border: none;
+    outline: none;
+    background-color: #ffffff;
+    padding: 10px;
+}
+.navig-button:hover {
+    background-color: #ffbf0065;
+    color: #000000;
+}
+.navig-button:disabled {
+    background-color: #ffc000;
+    color: #ffffff;
+}
+#product-list {
+    display: flex;
+    flex-wrap: wrap;
+}
+.product {
+    display: grid;
+    justify-items: center;
+    margin: 1%;
+    width: 30%;
+}
+.product-market {
+    width: 250px;
+    margin-bottom: 20px;
+}
+.product-img-frame {
+    height: 220px;
+    width: 220px;
+    display: grid;
+    align-content: center;
+    justify-items: center;
+    border-radius: 50%;
+    background-color: #ffffff;
+    outline: 15px solid #f5c300;
+    margin-bottom: 20px;
+}
+.product-img {
+    width: 80%;
+}
+.product-description {
+    width: 70%;
+    margin: 8px;
+    color: #3e3f42;
+    font-family: 'Roboto';
+    font-size: 22px;
+    border-collapse: collapse;
+}
+.product-description thead th {
+    border-bottom: 3px solid #3e3f42;
+    padding-bottom: 8px;
+}
+.product-description tbody td {
+    text-align: center;
+    border-bottom: 3px solid #3e3f42;
+    padding-bottom: 25px;
+    font-size: 16px;
+}
+.multiple {
+    color: #3f87c6;
+    text-decoration: underline;
+    cursor: pointer;
+}
+.product-description tfoot tr td {
+    color: #d85d38;
+    text-align: center;
+}
+
+.product-add-to-cart {
+    margin: 20px;
+    width: 180px;
+    font-size: 14px;
+    font-weight: 800;
+    border: none;
+    outline: none;
+    background-color: #f5c300;
+    color: #ffffff;
+    padding: 8px;
+    border-radius: 5px;
+    box-shadow: 0px 2px 0px 0px #634f00;
+}
