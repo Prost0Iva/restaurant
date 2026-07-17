@@ -31,6 +31,8 @@ export class Settings {
     renderNavigButtons() {
         let first = true;
         const navig = document.getElementById('modal-navig');
+        const nextPage = document.getElementById('modal-next');
+        const previousPage = document.getElementById('modal-previous');
         navig.innerHTML = '';
         Object.entries(this.categories).forEach(([k, v]) => {
             let button = document.createElement('button');
@@ -43,14 +45,55 @@ export class Settings {
                 });
                 button.disabled = true;
                 if (k !== 'finish') {
+                    if (k == Object.keys(this.categories)[0]) {
+                        previousPage.classList.add('hidden');
+                    } else previousPage.classList.remove('hidden');
+                    nextPage.classList.remove('hidden');
                     this.renderPage(k);
-                } else this.renderFinishPage();
+                } else {
+                    this.renderFinishPage();
+                    previousPage.classList.remove('hidden');
+                    nextPage.classList.add('hidden');
+                }
             });
             navig.appendChild(button);
             if (first) {
+                previousPage.classList.add('hidden');
                 button.click();
                 first = false;
             }
+        });
+    }
+
+    renderNPButtons() {
+        const nextPage = document.getElementById('modal-next');
+        const previousPage = document.getElementById('modal-previous');
+        const navigButtons = document.querySelectorAll('.modal-navig-button');
+        nextPage.addEventListener('click', () => {
+            let i = 0;
+            navigButtons.forEach((b) => {
+                if (b.disabled) {
+                    navigButtons[i + 1].click();
+                    if (navigButtons.length - 1 == i + 1) {
+                        nextPage.classList.add('hidden');
+                    } else nextPage.classList.remove('hidden');
+                    return;
+                }
+                i++;
+            });
+        });
+        previousPage.addEventListener('click', () => {
+            let i = 0;
+            navigButtons.forEach((b) => {
+                if (b.disabled) {
+                    navigButtons[i - 1].click();
+                    if (i - 1 == 0) {
+                        previousPage.classList.add('hidden');
+                    } else previousPage.classList.remove('hidden');
+                    return;
+                }
+                i++;
+            });
         });
     }
 
@@ -70,10 +113,18 @@ export class Settings {
     }
 
     renderPage(category) {
+        //const nextPage = document.getElementById('modal-next');
+        //const previousPage = document.getElementById('modal-previous');
+        //
+        //
+        //
+        //
+        //
+        //
+
         if (this.categories[category].options.length == 0) {
             this.fillOptions(category);
         }
-
         const title = document.getElementById('modal-title-text');
         const list = document.getElementById('modal-options');
         const finish = document.getElementById('modal-finish');
@@ -141,13 +192,15 @@ export class Settings {
         );
     }
 
-    open(components, price, name, image) {
+    open(components, price, name, image, description) {
         this.components = structuredClone(components);
         this.originPrice = price;
         this.prodName = name;
         this.image = image;
+        this.description = description;
         this.updTotalPrice();
         this.renderNavigButtons();
+        this.renderNPButtons();
         modalOverlay.classList.add('active');
     }
     close() {

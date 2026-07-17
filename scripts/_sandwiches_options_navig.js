@@ -1,4 +1,4 @@
-import { fillOptions, components } from './sandwiches_options.js';
+import { fillOptions, components } from './_sandwiches_options.js';
 import { cart, menuCartUpd } from './cart.js';
 
 const modal_overlay = document.getElementById('modal-overlay');

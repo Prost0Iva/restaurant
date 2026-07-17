@@ -1,6 +1,6 @@
-import { Menu } from './menu_.js';
+import { Menu } from './menu.js';
 import { Settings } from './settings.js';
-import { Cart } from './cart_.js';
+import { Cart } from './cart.js';
 
 const response = await fetch('assets/data.json');
 export const data = await response.json();

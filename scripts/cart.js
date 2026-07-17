@@ -1,146 +1,80 @@
-const modal_overlay = document.getElementById('modal-cart-overlay');
-const modal_close = document.getElementById('modal-cart-close');
-const modal_foot = document.getElementById('modal-cart-foot');
-const cart_button = document.getElementById('cart-button');
-const modal_cart = document.getElementById('modal-cart');
-const menu_cart = document.getElementById('cart');
+import { CartPosition } from './cart_position.js';
 
-export let cart = {
-    positions: [],
-    total_price: 0
-};
+const cartOverlay = document.getElementById('modal-cart-overlay');
 
-let data;
-async function init() {
-    const response = await fetch('assets/data.json');
-    data = await response.json();
-}
-const dataReady = init();
+export class Cart {
+    constructor() {
+        this.positions = [];
+        this.totalPrice = 0;
+    }
 
-function openModal() {
-    modalCartUpd();
-    modal_overlay.classList.add('active');
-    document.body.classList.add('scrollbar-off');
-}
-function closeModal() {
-    modal_overlay.classList.remove('active');
-    document.body.classList.remove('scrollbar-off');
-}
-async function modalCartUpd() {
-    await dataReady;
-    modal_cart.innerHTML = '';
-    let i = 0;
-    cart.positions.forEach((position) => {
-        data.menu.forEach((prod) => {
-            if (prod.name == position.name) {
-                modal_cart.insertAdjacentHTML(
-                    'beforeend',
-                    `<div class="position" id="${i}">
-                        <div class = "option-img-frame">
-                            <img class = "option-img" src="assets${prod.image}" alt="">
-                        </div>
-                        <div class="position-right">
-                            <button class="delete-position">X</button>
-                            <table class = "position-description">
-                                <thead>
-                                    <th>${position.name}</th>
-                                </thead>
-                                <tbody>
-                                    <tr><td>${prod.description}</td></tr>
-                                </tbody>
-                                <tfoot>
-                                    <tr><td>${position.price} руб. за шт</td></tr>
-                                </tfoot>
-                            </table>
-                            <div class="modal-val-changer">
-                                <button class="modal-val-remove">-</button>
-                                <div class="modal-val-indicator">${position.count}</div>
-                                <button class="modal-val-add">+</button>
-                            </div>
-                        </div>
-                    </div>`
-                );
+    addToCart(name, val, price, components, image, description) {
+        let posFind = false;
+        this.positions.forEach((pos) => {
+            if (pos.name == name && JSON.stringify(pos.components) == JSON.stringify(components)) {
+                pos.val += val;
+                this.updMenuCart();
+                posFind = true;
             }
         });
-        i++;
-    });
-    cartTotalPrice();
-
-    document.dispatchEvent(new CustomEvent('modalCartUpdated'));
-}
-document.addEventListener('modalCartUpdated', function () {
-    const positions = document.querySelectorAll('.position');
-    positions.forEach((pos) => {
-        pos.querySelector('.modal-val-remove').addEventListener('click', function () {
-            if (Number(pos.querySelector('.modal-val-indicator').textContent) > 1) {
-                cart.positions[Number(pos.id)].count -= 1;
-                pos.querySelector('.modal-val-indicator').textContent = cart.positions[Number(pos.id)].count;
-                menuCartUpd();
-            }
-        });
-        pos.querySelector('.modal-val-add').addEventListener('click', function () {
-            cart.positions[Number(pos.id)].count += 1;
-            pos.querySelector('.modal-val-indicator').textContent = cart.positions[Number(pos.id)].count;
-            menuCartUpd();
-        });
-        pos.querySelector('.delete-position').addEventListener('click', function () {
-            cart.positions.splice(Number(pos.id), 1);
-            modalCartUpd();
-            menuCartUpd();
-        });
-    });
-});
-document.addEventListener('menuCartUpdated', function () {
-    if (cart.positions.length < 1) {
-        cart_button.disabled = true;
-    } else {
-        cart_button.disabled = false;
+        if (!posFind) {
+            this.positions.push(new CartPosition(name, val, price, components, image, description));
+        }
+        this.updMenuCart();
     }
-});
-export function menuCartUpd() {
-    menu_cart.querySelector('tbody').innerHTML = '';
-    cart.positions.forEach((position) => {
-        menu_cart
-            .querySelector('tbody')
-            .insertAdjacentHTML(
-                'beforeend',
-                `<td class="cart-td-1">${position.name}</td> <td class="cart-td-2">${position.count}</td> <td class="cart-td-3">${position.price}</td><td class="cart-td-4">X</td>`
-            );
-    });
-    cartTotalPrice();
 
-    document.dispatchEvent(new CustomEvent('menuCartUpdated'));
-}
-function cartTotalPrice() {
-    cart.total_price = 0;
-    cart.positions.forEach((position) => {
-        cart.total_price += position.price * position.count;
-    });
-    menu_cart.querySelector('#cart-total-price').textContent = `Итого: ${cart.total_price} руб.`;
-    modal_foot.querySelector('#modal-total-price').textContent = `Итого: ${cart.total_price} руб.`;
-}
-
-modal_close.addEventListener('click', closeModal);
-modal_overlay.addEventListener('click', function (e) {
-    if (e.target === modal_overlay) {
-        closeModal();
+    updTotalPrice() {
+        this.totalPrice = 0;
+        this.positions.forEach((pos) => {
+            this.totalPrice += pos.price * pos.val;
+        });
+        const menuTotalPrice = document.getElementById('cart-total-price');
+        const modalTotalPrice = document.getElementById('modal-cart-total-price');
+        menuTotalPrice.textContent = `Итого: ${this.totalPrice} руб.`;
+        modalTotalPrice.textContent = `Итого: ${this.totalPrice} руб.`;
     }
-});
-cart_button.addEventListener('click', openModal);
 
-//function totalPrice(cart, price) {
-//    let old_price = Number(cart.children[2].children[0].textContent.trim().split(" ")[1])
-//    return old_price + price
-//}
-//
-//            let name = prod_desc.children[0].firstElementChild.textContent.trim()
-//            let value = Number(val.textContent)
-//            let price = Number(prod_desc.children[2].firstElementChild.textContent.split(" ")[1])
-//            price *= value
-//            if (value > 0) {
-//                let order = document.createElement('tr');
-//                order.innerHTML = `<td>${name}</td> <td>${value}</td> <td>${price}</td>`
-//                cart.children[1].append(order)
-//
-//                cart.children[2].children[0].innerHTML = `<td colspan="3">Итого: ${totalPrice(cart, price)} руб.</td>`
-//            }
+    updMenuCart() {
+        this.updTotalPrice();
+        const menuCart = document.getElementById('cart');
+        const tbody = menuCart.querySelector('tbody');
+        tbody.innerHTML = '';
+        let totalPrice;
+        this.positions.forEach((pos) => {
+            const tr = document.createElement('tr');
+            const td1 = document.createElement('td');
+            const td2 = document.createElement('td');
+            const td3 = document.createElement('td');
+            td1.classList.add('cart-td-1');
+            td2.classList.add('cart-td-2');
+            td3.classList.add('cart-td-3');
+            td1.textContent = pos.name;
+            td2.textContent = pos.val;
+            td3.textContent = pos.price;
+            tr.appendChild(td1);
+            tr.appendChild(td2);
+            tr.appendChild(td3);
+            tbody.appendChild(tr);
+        });
+        const openCart = document.getElementById('cart-button');
+        if (this.positions.length > 0) {
+            openCart.disabled = false;
+        } else openCart.disabled = true;
+    }
+
+    updModalCart() {
+        const list = document.getElementById('modal-cart');
+        list.innerHTML = '';
+        this.positions.forEach((pos) => {
+            pos.render();
+        });
+    }
+
+    open() {
+        cartOverlay.classList.add('active');
+        this.updModalCart();
+    }
+    close() {
+        cartOverlay.classList.remove('active');
+    }
+}
