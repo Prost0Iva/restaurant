@@ -1,25 +1,15 @@
 {
-    "name": "restaurant",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "scripts": {
-        "dev": "vite"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/Prost0Iva/restaurant.git"
-    },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
-    "type": "commonjs",
-    "bugs": {
-        "url": "https://github.com/Prost0Iva/restaurant/issues"
-    },
-    "homepage": "https://github.com/Prost0Iva/restaurant#readme",
-    "devDependencies": {
-        "typescript": "^7.0.2",
-        "vite": "^8.1.5"
-    }
+  "name": "restaurant",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "typescript": "~6.0.2",
+    "vite": "^8.1.1"
+  }
 }
