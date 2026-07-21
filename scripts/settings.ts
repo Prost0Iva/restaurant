@@ -1,10 +1,27 @@
-import { data } from './main.js';
-import { Option } from './option.js';
-import { createFinishPage } from './finish_page.js';
+import { getData } from './api.ts';
+import { Option } from './option.ts';
+import { createFinishPage } from './finish_page.ts';
+import { Data, RawComponents, RawOption, RawSetting } from './types.ts';
 
-const modalOverlay = document.getElementById('modal-overlay');
+interface ClassCategory {
+    name: string;
+    type: string;
+    title: string;
+    multiple: boolean;
+    options: Option[];
+}
+
+const modalOverlay: HTMLElement = document.getElementById('modal-overlay')!;
 
 export class Settings {
+    components: RawComponents;
+    categories: Record<string, ClassCategory>;
+    originPrice: number;
+    totalPrice: number;
+    prodName: string;
+    image: string;
+    description: string;
+
     constructor() {
         this.components = {};
         this.categories = {};
@@ -15,8 +32,9 @@ export class Settings {
         this.description = '';
     }
 
-    fillCategories() {
-        Object.entries(data.settings).forEach(([k, v]) => {
+    async fillCategories() {
+        const settings: Record<string, RawSetting> = await getData('settings');
+        Object.entries(settings).forEach(([k, v]) => {
             const multiple = v.multiple || false;
             this.categories[k] = {
                 name: v.name,
@@ -30,16 +48,16 @@ export class Settings {
 
     renderNavigButtons() {
         let first = true;
-        const navig = document.getElementById('modal-navig');
-        const nextPage = document.getElementById('modal-next');
-        const previousPage = document.getElementById('modal-previous');
+        const navig: HTMLElement = document.getElementById('modal-navig')!;
+        const nextPage: HTMLElement = document.getElementById('modal-next')!;
+        const previousPage: HTMLElement = document.getElementById('modal-previous')!;
         navig.innerHTML = '';
-        Object.entries(this.categories).forEach(([k, v]) => {
+        Object.entries(this.categories as Record<string, ClassCategory>).forEach(([k, v]) => {
             let button = document.createElement('button');
             button.classList.add('modal-navig-button');
             button.textContent = v.name;
             button.addEventListener('click', () => {
-                const navigButtons = document.querySelectorAll('.modal-navig-button');
+                const navigButtons = document.querySelectorAll<HTMLButtonElement>('.modal-navig-button');
                 navigButtons.forEach((b) => {
                     b.disabled = false;
                 });
@@ -66,9 +84,9 @@ export class Settings {
     }
 
     renderNPButtons() {
-        const nextPage = document.getElementById('modal-next');
-        const previousPage = document.getElementById('modal-previous');
-        const navigButtons = document.querySelectorAll('.modal-navig-button');
+        const nextPage: HTMLElement = document.getElementById('modal-next')!;
+        const previousPage: HTMLElement = document.getElementById('modal-previous')!;
+        const navigButtons = document.querySelectorAll<HTMLButtonElement>('.modal-navig-button');
         nextPage.addEventListener('click', () => {
             let i = 0;
             navigButtons.forEach((b) => {
@@ -97,8 +115,10 @@ export class Settings {
         });
     }
 
-    fillOptions(category) {
-        Object.entries(data[this.categories[category].type]).forEach(([k, v]) => {
+    async fillOptions(category: string) {
+        const type = this.categories[category].type as keyof Data;
+        const options = await getData(type);
+        Object.entries(options).forEach(([k, v]) => {
             let option = new Option(
                 k,
                 category,
@@ -112,23 +132,14 @@ export class Settings {
         });
     }
 
-    renderPage(category) {
-        //const nextPage = document.getElementById('modal-next');
-        //const previousPage = document.getElementById('modal-previous');
-        //
-        //
-        //
-        //
-        //
-        //
-
+    async renderPage(category: string) {
         if (this.categories[category].options.length == 0) {
-            this.fillOptions(category);
+            await this.fillOptions(category);
         }
-        const title = document.getElementById('modal-title-text');
-        const list = document.getElementById('modal-options');
-        const finish = document.getElementById('modal-finish');
-        const modalFoot = document.getElementById('modal-foot');
+        const title: HTMLElement = document.getElementById('modal-title-text')!;
+        const list: HTMLElement = document.getElementById('modal-options')!;
+        const finish: HTMLElement = document.getElementById('modal-finish')!;
+        const modalFoot: HTMLElement = document.getElementById('modal-foot')!;
         finish.innerHTML = '';
         list.classList.remove('hidden');
         finish.classList.add('hidden');
@@ -136,15 +147,16 @@ export class Settings {
             modalFoot.querySelector('.value') !== null &&
             modalFoot.querySelector('.product-add-to-cart') !== null
         ) {
-            modalFoot.removeChild(modalFoot.querySelector('.value'));
-            modalFoot.removeChild(modalFoot.querySelector('.product-add-to-cart'));
+            modalFoot.removeChild(modalFoot.querySelector('.value')!);
+            modalFoot.removeChild(modalFoot.querySelector('.product-add-to-cart')!);
         }
         title.textContent = this.categories[category].title;
         list.innerHTML = '';
         this.categories[category].options.forEach((option) => {
             const o = option.render();
             if (this.categories[category].multiple && this.components[category].length > 0) {
-                this.components[category].forEach((t) => {
+                let component = this.components[category] as string[];
+                component.forEach((t) => {
                     if (option.type == t) {
                         o.classList.add('modal-option-active');
                     }
@@ -160,20 +172,21 @@ export class Settings {
     }
 
     renderFinishPage() {
-        const title = document.getElementById('modal-title-text');
+        const title: HTMLElement = document.getElementById('modal-title-text')!;
         title.textContent = this.categories['finish'].title;
-        const optionList = document.getElementById('modal-options');
+        const optionList: HTMLElement = document.getElementById('modal-options')!;
         optionList.innerHTML = '';
-        const finishComponents = {};
+        const finishComponents: Record<string, string> = {};
         Object.entries(this.categories).forEach(([k, v]) => {
             if (k !== 'finish') {
                 finishComponents[v.name] = '';
                 v.options.forEach((option) => {
-                    if (typeof this.components[k] == 'string' && this.components[k] == option.type) {
+                    const componentValue: string | string[] = this.components[k];
+                    if (typeof componentValue == 'string' && componentValue == option.type) {
                         finishComponents[v.name] += `${option.name}; `;
                     }
-                    if (typeof this.components[k] == 'object') {
-                        typeof this.components[k].forEach((type) => {
+                    if (typeof componentValue == 'object') {
+                        componentValue.forEach((type) => {
                             if (type == option.type) {
                                 finishComponents[v.name] += `${option.name}; `;
                             }
@@ -192,7 +205,7 @@ export class Settings {
         );
     }
 
-    open(components, price, name, image, description) {
+    open(components: RawComponents, price: number, name: string, image: string, description: string) {
         this.components = structuredClone(components);
         this.originPrice = price;
         this.prodName = name;
@@ -211,12 +224,12 @@ export class Settings {
 
     updTotalPrice() {
         this.totalPrice = this.originPrice;
-        const footPrice = document.getElementById('modal-total-price');
-        const modalFoot = document.getElementById('modal-foot');
+        const footPrice: HTMLElement = document.getElementById('modal-total-price')!;
         Object.entries(this.components).forEach(([k, v]) => {
             if (this.categories[k].multiple) {
+                const component = v as string[];
                 this.categories[k].options.forEach((option) => {
-                    v.forEach((type) => {
+                    component.forEach((type: string) => {
                         if (type == option.type) {
                             this.totalPrice += option.price;
                         }

@@ -1,8 +1,29 @@
-import { createValChanger } from './value.js';
-import { settings, cart } from './main.js';
+import { createValChanger } from './value.ts';
+import { settings, cart } from './main.ts';
+import { RawComponents } from './types.ts';
 
 export class Product {
-    constructor(name, description, image, marketImage, price, category, market, type, components) {
+    name: string;
+    description: string;
+    image: string;
+    marketImage: string;
+    price: number;
+    category: string;
+    market: string;
+    type: string;
+    components: RawComponents;
+
+    constructor(
+        name: string,
+        description: string,
+        image: string,
+        marketImage: string,
+        price: number,
+        category: string,
+        market: string,
+        type: string,
+        components: RawComponents
+    ) {
         this.name = name;
         this.description = description;
         this.image = image;
@@ -70,7 +91,7 @@ export class Product {
         product.appendChild(table);
 
         // Блок количества
-        product.appendChild(createValChanger());
+        product.appendChild(createValChanger(1));
 
         // Кнопка "В корзину"
         const addToCartBtn = document.createElement('button');
@@ -79,7 +100,7 @@ export class Product {
         addToCartBtn.addEventListener('click', () => {
             cart.addToCart(
                 this.name,
-                Number(product.querySelector('.val-indicator').textContent),
+                Number(product.querySelector('.val-indicator')!.textContent),
                 this.price,
                 this.components,
                 this.image,

@@ -1,4 +1,5 @@
-import { settings } from './main.js';
+import { settings } from './main.ts';
+import { RawComponents } from './types.ts';
 
 export class Option {
     type: string;
@@ -63,16 +64,15 @@ export class Option {
     }
 
     select(option: HTMLElement) {
+        let components = settings.components as RawComponents;
         if (this.multiple) {
+            let component = components[this.category] as string[];
             if (option.classList.contains('modal-option-active')) {
                 option.classList.remove('modal-option-active');
-                settings.components[this.category].splice(
-                    settings.components[this.category].indexOf(this.type),
-                    1
-                );
+                component.splice(component.indexOf(this.type), 1);
             } else {
                 option.classList.add('modal-option-active');
-                settings.components[this.category].push(this.type);
+                component.push(this.type);
             }
         } else {
             const options = document.querySelectorAll('.modal-option');
@@ -80,7 +80,7 @@ export class Option {
                 o.classList.remove('modal-option-active');
             });
             option.classList.add('modal-option-active');
-            settings.components[this.category] = this.type;
+            components[this.category] = this.type;
         }
         settings.updTotalPrice();
     }

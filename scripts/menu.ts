@@ -1,17 +1,19 @@
-import { Product } from './product.js';
-import { data } from './main.js';
+import { Product } from './product.ts';
+import { getData } from './api.ts';
+import { RawComponents, RawCategory, RawProduct, RawOption, RawMarket } from './types.ts';
 
-interface Category {
+interface ClassCategory {
     name: string;
     description: string;
-    products: any[];
+    products: Product[];
 }
 
 export class Menu {
-    categories: Record<string, Category> = {};
+    categories: Record<string, ClassCategory> = {};
 
-    fillCategories() {
-        Object.entries(data.categories).forEach(([k, v]) => {
+    async fillCategories() {
+        const categories: Record<string, RawCategory> = await getData('categories');
+        Object.entries(categories).forEach(([k, v]) => {
             this.categories[k] = {
                 name: v.name,
                 description: v.description,
@@ -44,16 +46,18 @@ export class Menu {
         });
     }
 
-    fillProducts(category: string) {
-        data.menu.forEach((prod) => {
+    async fillProducts(category: string) {
+        const menu: RawProduct[] = await getData('menu');
+        const markets: Record<string, RawMarket> = await getData('markets');
+        menu.forEach((prod) => {
             if (prod.category == category) {
-                let components = [];
+                let components: RawComponents = {};
                 let marketImage = '';
                 if (prod.type == 'multiple') {
                     components = prod.components;
                 }
                 if (prod.market !== '') {
-                    marketImage = data.markets[prod.market].image;
+                    marketImage = markets[prod.market].image;
                 }
                 let product = new Product(
                     prod.name,
@@ -71,11 +75,11 @@ export class Menu {
         });
     }
 
-    renderPage(category: string) {
+    async renderPage(category: string) {
         if (this.categories[category].products.length == 0) {
-            this.fillProducts(category);
+            await this.fillProducts(category);
         }
-        const list = document.getElementById('product-list');
+        const list: HTMLElement = document.getElementById('product-list')!;
         list.innerHTML = '';
         this.categories[category].products.forEach((prod) => {
             list.appendChild(prod.render());

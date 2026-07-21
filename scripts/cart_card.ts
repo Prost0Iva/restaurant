@@ -1,6 +1,14 @@
-import { createValChanger } from './value.js';
+import { createValChanger } from './value.ts';
+import { CartPosition } from './cart_position.ts';
 
-export function createCartCard(name, val, price, image, description, pos) {
+export function createCartCard(
+    name: string,
+    val: number,
+    price: number,
+    image: string,
+    description: string,
+    pos: CartPosition
+) {
     const position = document.createElement('div');
     position.classList.add('position');
 
@@ -48,28 +56,3 @@ export function createCartCard(name, val, price, image, description, pos) {
 
     return position;
 }
-
-//`<div class="position" id="${i}">
-//    <div class = "option-img-frame">
-//        <img class = "option-img" src="assets${prod.image}" alt="">
-//    </div>
-//    <div class="position-right">
-//        <button class="delete-position">X</button>
-//        <table class = "position-description">
-//            <thead>
-//                <th>${position.name}</th>
-//            </thead>
-//            <tbody>
-//                <tr><td>${prod.description}</td></tr>
-//            </tbody>
-//            <tfoot>
-//                <tr><td>${position.price} руб. за шт</td></tr>
-//            </tfoot>
-//        </table>
-//        <div class="modal-val-changer">
-//            <button class="modal-val-remove">-</button>
-//            <div class="modal-val-indicator">${position.count}</div>
-//            <button class="modal-val-add">+</button>
-//        </div>
-//    </div>
-//</div>`

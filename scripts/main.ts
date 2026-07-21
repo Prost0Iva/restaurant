@@ -1,61 +1,6 @@
-import { Menu } from './menu.js';
-import { Settings } from './settings.js';
-import { Cart } from './cart.js';
-
-interface RawProduct {
-    name: string;
-    description: string;
-    image: string;
-    price: number;
-    category: string;
-    market: string;
-    type: string;
-    weight: number;
-    components: RawComponents;
-}
-interface RawComponents {
-    size: string;
-    bread: string;
-    vegetable: string[];
-    sauce: string[];
-    filling: string[];
-}
-interface RawOption {
-    name: string;
-    description: string;
-    price: number;
-    image: string;
-}
-interface RawMarket {
-    name: string;
-    image: string;
-}
-interface RawCategory {
-    name: string;
-    description: string;
-}
-interface RawSetting {
-    name: string;
-    object: string;
-    title: string;
-    multiple: boolean;
-}
-
-interface Data {
-    version: string;
-    menu: RawProduct[];
-    fillings: Record<string, RawOption>;
-    sizes: Record<string, RawOption>;
-    breads: Record<string, RawOption>;
-    vegetables: Record<string, RawOption>;
-    sauces: Record<string, RawOption>;
-    markets: Record<string, RawMarket>;
-    categories: Record<string, RawCategory>;
-    settings: Record<string, RawSetting>;
-}
-
-const response = await fetch('assets/data.json');
-export const data: Data = await response.json();
+import { Menu } from './menu.ts';
+import { Settings } from './settings.ts';
+import { Cart } from './cart.ts';
 
 const menu = new Menu();
 export const settings = new Settings();
