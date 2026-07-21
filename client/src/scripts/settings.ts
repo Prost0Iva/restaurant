@@ -219,7 +219,7 @@ export class Settings {
     }
     close() {
         modalOverlay.classList.remove('active');
-        document.body.classList.add('scrollbar-off');
+        document.body.classList.remove('scrollbar-off');
     }
 
     updTotalPrice() {
