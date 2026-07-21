@@ -1,9 +1,9 @@
-import '../CSS/main.css'
-import '../CSS/cart.css'
-import '../CSS/menu.css'
-import '../CSS/modal_cart.css'
-import '../CSS/modal_settings.css'
-import '../CSS/value.css'
+import '@/CSS/main.css';
+import '@/CSS/cart.css';
+import '@/CSS/menu.css';
+import '@/CSS/modal_cart.css';
+import '@/CSS/modal_settings.css';
+import '@/CSS/value.css';
 import { Menu } from './menu.ts';
 import { Settings } from './settings.ts';
 import { Cart } from './cart.ts';
