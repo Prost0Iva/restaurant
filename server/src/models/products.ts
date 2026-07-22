@@ -1,6 +1,21 @@
 import mongoose from 'mongoose';
 
-const productSchema = new mongoose.Schema({
+interface RawComponents {
+    [key: string]: string | string[];
+}
+interface RawProduct {
+    name: string;
+    description: string;
+    image: string;
+    price: number;
+    category: string;
+    market: string;
+    type: string;
+    weight: number;
+    components: RawComponents;
+}
+
+const productSchema = new mongoose.Schema<RawProduct>({
     name: String,
     description: String,
     image: String,
@@ -9,13 +24,7 @@ const productSchema = new mongoose.Schema({
     market: String,
     type: String,
     weight: Number,
-    components: {
-        size: String,
-        bread: String,
-        vegetable: [String],
-        sauce: [String],
-        filling: [String]
-    }
+    components: Object
 });
 
-export default mongoose.model('menu', productSchema, 'menu');
+export default mongoose.model<RawProduct>('menu', productSchema, 'menu');

@@ -1,4 +1,4 @@
-import { getData } from './api.ts';
+import { getSettings, getOptions } from './api.ts';
 import { Option } from './option.ts';
 import { createFinishPage } from './finish_page.ts';
 import type { Data, RawComponents, RawSetting } from './types.ts';
@@ -33,7 +33,7 @@ export class Settings {
     }
 
     async fillCategories() {
-        const settings: Record<string, RawSetting> = await getData('settings');
+        const settings: Record<string, RawSetting> = await getSettings();
         Object.entries(settings).forEach(([k, v]) => {
             const multiple = v.multiple || false;
             this.categories[k] = {
@@ -117,7 +117,7 @@ export class Settings {
 
     async fillOptions(category: string) {
         const type = this.categories[category].type as keyof Data;
-        const options = await getData(type);
+        const options = await getOptions(type);
         Object.entries(options).forEach(([k, v]) => {
             let option = new Option(
                 k,

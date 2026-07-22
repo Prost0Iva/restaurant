@@ -1,4 +1,5 @@
 export interface RawProduct {
+    _id?: string;
     name: string;
     description: string;
     image: string;
@@ -19,6 +20,7 @@ export interface RawOption {
     image: string;
 }
 export interface RawMarket {
+    _id?: string;
     name: string;
     image: string;
 }
@@ -27,6 +29,7 @@ export interface RawCategory {
     description: string;
 }
 export interface RawSetting {
+    _id?: string;
     name: string;
     object: string;
     title: string;

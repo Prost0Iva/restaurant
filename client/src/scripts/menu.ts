@@ -1,5 +1,5 @@
 import { Product } from './product.ts';
-import { getData, getProducts } from './api.ts';
+import { getProducts, getMarkets, getCategories } from './api.ts';
 import type { RawComponents, RawCategory, RawProduct, RawMarket } from './types.ts';
 
 interface ClassCategory {
@@ -12,7 +12,7 @@ export class Menu {
     categories: Record<string, ClassCategory> = {};
 
     async fillCategories() {
-        const categories: Record<string, RawCategory> = await getData('categories');
+        const categories: Record<string, RawCategory> = await getCategories();
         Object.entries(categories).forEach(([k, v]) => {
             this.categories[k] = {
                 name: v.name,
@@ -48,8 +48,7 @@ export class Menu {
 
     async fillProducts(category: string) {
         const menu: RawProduct[] = await getProducts();
-        console.log(menu);
-        const markets: Record<string, RawMarket> = await getData('markets');
+        const markets: Record<string, RawMarket> = await getMarkets();
         menu.forEach((prod) => {
             if (prod.category == category) {
                 let components: RawComponents = {};
