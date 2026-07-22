@@ -1,10 +1,4 @@
-import type { Data, RawProduct, RawMarket, RawCategory, RawSetting, RawOption } from './types.ts';
-
-export async function getData<K extends keyof Data>(field: K): Promise<Data[K]> {
-    const response = await fetch('src/data.json');
-    const data: Data = await response.json();
-    return data[field];
-}
+import type { RawProduct, RawMarket, RawCategory, RawSetting, RawOption } from './types.ts';
 
 const API_URL = 'http://localhost:5000/api/';
 

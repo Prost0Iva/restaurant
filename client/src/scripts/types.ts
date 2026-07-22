@@ -14,6 +14,7 @@ export interface RawComponents {
     [key: string]: string | string[];
 }
 export interface RawOption {
+    _id?: string;
     name: string;
     description: string;
     price: number;
